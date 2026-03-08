@@ -7,3 +7,18 @@ npx/templates/
 npx/*.tgz
 .kilocodemodes
 .github/*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dylib
+*.egg-info/
+dist/
+build/
+venv/
+.env
+.pytest_cache/
+uvx/templates/

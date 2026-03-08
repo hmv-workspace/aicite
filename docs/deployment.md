@@ -20,15 +20,13 @@
 | Artifact | Location in repo | Distribution |
 |---|---|---|
 | npm package `aicite` | `npx/` | npm registry (supports `npx aicite@latest …`) |
-| Templates | `templates/basic/` → synced to `npx/templates/basic/` | bundled in npm tarball via `prepack` |
+| Python package `aicite` | `uvx/` | PyPI registry (supports `uvx aicite@latest …`) |
+| Templates | `templates/basic/` → synced to `npx/templates/basic/` and `uvx/templates/basic/` | bundled in respective distribution packages |
 
-### Released Versions (npm)
+### Released Versions
 
-As of 8 March 2026, the npm registry reports:
-
-- `0.0.1`
-- `0.0.2`
-- `0.0.3`
+- **npm:** `0.0.1`, `0.0.2`, `0.0.3`, `0.0.4`
+- **PyPI:** `0.0.4`
 
 ---
 
@@ -87,7 +85,93 @@ Notes:
 
 ---
 
+## Publish Procedure (PyPI)
+
+### Preconditions
+
+- Python `>=3.8`
+- PyPI account with publish permissions
+- PyPI API token configured (or username/password)
+
+### 1) Prepare the release
+
+1. Update `uvx/pyproject.toml` `version`.
+2. Ensure templates are correct under `templates/basic/`.
+3. Sync templates to uvx directory:
+
+```bash
+cd uvx
+python3 scripts/sync-templates.py
+```
+
+### 2) Smoke-check the CLI locally
+
+```bash
+cd uvx
+python3 -m venv venv
+source venv/bin/activate
+pip install -e .
+aicite --help
+```
+
+### 3) Build and Publish
+
+From repo root:
+
+```bash
+cd uvx
+python3 -m venv venv
+source venv/bin/activate
+pip install build twine
+python -m build
+twine upload dist/*
+```
+
+Notes:
+
+- The `python -m build` command creates both source distribution and wheel files in the `dist/` directory.
+- `twine` is used to upload the package to PyPI.
+- Ensure your PyPI credentials are properly configured (either via `~/.pypirc` or environment variables).
+
+### 1) Prepare the release
+
+1. Update `npx/package.json` `version`.
+2. Ensure templates are correct under `templates/basic/`.
+3. Validate the publish artifact contents:
+
+```bash
+cd npx
+npm run pack:dry
+```
+
+This triggers the `npx/` `prepack` script, which syncs templates into `npx/templates/`.
+
+### 2) Smoke-check the CLI locally
+
+```bash
+cd npx
+npm run smoke
+```
+
+### 3) Publish
+
+From repo root:
+
+```bash
+cd npx
+npm publish
+```
+
+Notes:
+
+- `npm publish` will run `prepublishOnly`/`prepack` hooks as applicable; in this repo `prepack` is the important one.
+- Ensure `LICENSE`, `README.md`, `bin/`, and `templates/` are present in the published tarball (see `files` in `npx/package.json`).
+
+---
+
 ## Verification (Post-Publish)
+
+### npm Package Verification
 
 In a clean scratch directory:
 
@@ -100,6 +184,26 @@ Then run setup and confirm expected folders are created:
 ```bash
 mkdir /tmp/aicite-smoke && cd /tmp/aicite-smoke
 npx --yes aicite@latest setup --copilot
+```
+
+Expected outcome:
+
+- `docs/` exists (always generated)
+- `.github/` exists when `--copilot` is used
+
+### Python Package Verification
+
+In a clean scratch directory:
+
+```bash
+uvx aicite@latest --help
+```
+
+Then run setup and confirm expected folders are created:
+
+```bash
+mkdir /tmp/aicite-smoke && cd /tmp/aicite-smoke
+uvx aicite@latest setup --copilot
 ```
 
 Expected outcome:
@@ -128,9 +232,11 @@ Alerting:
 
 ## Rollback / Mitigation
 
+### npm Package Rollback
+
 Because this is an npm-distributed CLI, rollback is primarily about **tags and messaging**:
 
-### Preferred: move the `latest` dist-tag
+#### Preferred: move the `latest` dist-tag
 
 If a bad version was published, repoint `latest` to a known-good version:
 
@@ -138,15 +244,29 @@ If a bad version was published, repoint `latest` to a known-good version:
 npm dist-tag add aicite@0.0.2 latest
 ```
 
-### Deprecate a bad version
+#### Deprecate a bad version
 
 ```bash
 npm deprecate aicite@0.0.3 "Bad release: use 0.0.2"
 ```
 
-### Unpublish (use sparingly)
+#### Unpublish (use sparingly)
 
 `npm unpublish` is time-limited by npm policy and can break consumers; prefer dist-tags/deprecation.
+
+### Python Package Rollback
+
+For PyPI packages, rollback options are more limited:
+
+#### Deprecate a bad version
+
+You can mark a version as deprecated using the PyPI web interface or via tools like `twine` (though twine doesn't support deprecation directly). The recommended way is to use the [PyPI API](https://warehouse.pypa.io/api-reference/json.html) or the web interface.
+
+#### Remove a bad version
+
+PyPI allows you to remove packages under certain conditions (e.g., if the version was published within the last 24 hours). This is generally not recommended as it can break consumers who have already installed the version.
+
+The recommended approach is to publish a new version that fixes the issue and update your documentation to recommend users install the latest version.
 
 ---
 

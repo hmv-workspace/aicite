@@ -17,13 +17,15 @@
 
 ## What’s Implemented (Current State)
 
-AiCite is implemented as a **minimal Node.js CLI** that scaffolds a target repository by copying a **versioned template tree** into the user’s current working directory.
+AiCite is implemented as both a **Node.js CLI** and a **Python CLI** that scaffold a target repository by copying a **versioned template tree** into the user’s current working directory.
 
 In this repo today:
 
 - A standalone npm package under `npx/` is published as the `aicite` package.
-- The CLI entrypoint is `npx/bin/aicite.js` (no runtime dependencies).
-- Templates live in `templates/basic/` (source of truth) and are synced into `npx/templates/` during packaging.
+- The Node.js CLI entrypoint is `npx/bin/aicite.js` (no runtime dependencies).
+- A Python package under `uvx/` is published as the `aicite` package on PyPI.
+- The Python CLI entrypoint is `uvx/aicite/cli.py` (uses argparse and pathlib).
+- Templates live in `templates/basic/` (source of truth) and are synced into respective distribution directories during packaging.
 
 ---
 
@@ -33,15 +35,24 @@ In this repo today:
 .
 ├── README.md                    # repo overview + dev smoke/pack commands
 ├── docs/                        # repo documentation (requirements/architecture/implementation/deployment)
-├── templates/basic/             # canonical templates (copied into npm package on prepack)
+├── templates/basic/             # canonical templates (copied into distribution packages during build)
 ├── npx/                         # publishable npm package
 │   ├── package.json             # package metadata (name/version/bin/engines)
 │   ├── package-lock.json        # npm lockfile (keeps node_modules inside npx/)
-│   ├── bin/aicite.js            # CLI implementation
+│   ├── bin/aicite.js            # Node.js CLI implementation
 │   ├── scripts/sync-templates.js# prepack template sync
 │   ├── templates/basic/         # templates shipped in the npm tarball
 │   └── .npmrc                   # disables audit/fund for deterministic logs
-└── uvx/                         # reserved for future Python/uvx distribution
+└── uvx/                         # publishable Python package
+    ├── pyproject.toml           # package metadata and dependencies
+    ├── aicite/
+    │   ├── __init__.py          # package initialization and version
+    │   └── cli.py               # Python CLI implementation
+    ├── scripts/
+    │   └── sync-templates.py    # pre-build template sync
+    ├── templates/basic/         # templates shipped in the PyPI package
+    ├── README.md                # Python package documentation
+    └── LICENSE                  # MIT license
 ```
 
 ---
@@ -142,6 +153,10 @@ If you’re developing locally, verify `templates/basic/` exists and that `npx/s
 
 | Area | Status | Notes |
 |---|---|---|
-| CLI implementation | ✅ Complete | Implemented in `npx/bin/aicite.js` |
-| Template packaging | ✅ Complete | Template sync on `prepack` (`npx/scripts/sync-templates.js`) |
+| Node.js CLI implementation | ✅ Complete | Implemented in `npx/bin/aicite.js` |
+| Python CLI implementation | ✅ Complete | Implemented in `uvx/aicite/cli.py` |
+| npm package publishing | ✅ Complete | Published to npm registry |
+| PyPI package publishing | ✅ Complete | Published to PyPI registry |
+| Template packaging (npm) | ✅ Complete | Template sync on `prepack` (`npx/scripts/sync-templates.js`) |
+| Template packaging (PyPI) | ✅ Complete | Template sync using `uvx/scripts/sync-templates.py` |
 | Automated tests | 🔄 In Progress | Only smoke-style checks exist today |
