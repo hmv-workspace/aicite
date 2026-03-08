@@ -1,29 +1,12 @@
 {
-  "name": "aicite",
-  "version": "0.0.1",
-  "description": "Open-source CLI utility to bootstrap AI assistant project context and agent prompts.",
-  "license": "MIT",
-  "keywords": [
-    "ai",
-    "cli",
-    "developer-tools",
-    "prompt",
-    "context",
-    "copilot",
-    "cline"
+  "name": "aicite-repo",
+  "private": true,
+  "description": "AiCite monorepo (npx CLI today; uvx/OS packages later).",
+  "workspaces": [
+    "npx"
   ],
-  "bin": {
-    "aicite": "bin/aicite.js"
-  },
-  "files": [
-    "bin",
-    "README.md",
-    "LICENSE"
-  ],
-  "engines": {
-    "node": ">=18"
-  },
   "scripts": {
-    "smoke": "node bin/aicite.js --help"
+    "smoke:npx": "npm --workspace ./npx run smoke",
+    "pack:npx": "npm --workspace ./npx pack --dry-run"
   }
 }

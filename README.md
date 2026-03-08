@@ -1,19 +1,22 @@
-# aicite
+# AiCite
 
-Open-source CLI utility to bootstrap AI assistant project context and agent prompts.
+Monorepo for the **AiCite** project.
 
-## Usage
+## Packages
+
+- `npx/` — npm package that provides `npx aicite setup`
+- `uvx/` — reserved for a future Python/uvx distribution
+
+## Development
+
+- Smoke-test the npm CLI:
 
 ```bash
-npx aicite setup
+npm run smoke:npx
 ```
 
-This creates the following in the current working directory:
+- Dry-run pack (what would be published to npm):
 
-- `.github/` — GitHub Copilot guidance + agent personas
-- `.kilocode/` — KiloCode configuration + agent personas
-- `docs/` — project documentation skeleton
-
-## License
-
-MIT
+```bash
+npm run pack:npx
+```
