@@ -5,3 +5,5 @@ npm-debug.log*
 # Generated during `npm pack` / `npm publish` for the npm workspace
 npx/templates/
 npx/*.tgz
+.kilocodemodes
+.github/*
