@@ -29,7 +29,7 @@ AiCite is a **local scaffolding system**: a CLI (`aicite setup`) copies a curate
 
 | Component | Location | Responsibility |
 |---|---|---|
-| Monorepo root workspace | `package.json` (root) | Hosts the npm workspace(s) and developer scripts.
+| Repo root (non-package) | `README.md`, `docs/`, `templates/`, `npx/` | Holds source templates + documentation; the publishable npm package lives under `npx/`.
 | npm CLI package | `npx/` | Publishable package that provides the `aicite` binary.
 | CLI entrypoint | `npx/bin/aicite.js` | Parses args; resolves templates; filters targets; writes files; prints summary.
 | Template source (repo) | `templates/basic/` | Intended “source of truth” template set under version control.
@@ -72,7 +72,7 @@ AiCite is a **local scaffolding system**: a CLI (`aicite setup`) copies a curate
 |---|---|---|---|
 | Language/Runtime | Node.js | `>=18` | Run the CLI reliably across environments.
 | Packaging | npm | N/A | Publish `aicite` and run via `npx`.
-| Repo structure | npm workspaces | N/A | Keep the publishable `npx/` package isolated within the monorepo.
+| Repo structure | Standalone npm package in `npx/` | N/A | Keep `node_modules` and the lockfile scoped to `npx/` while the repo root remains non-package.
 
 ---
 
@@ -80,7 +80,7 @@ AiCite is a **local scaffolding system**: a CLI (`aicite setup`) copies a curate
 
 ### Distribution
 
-- **Primary:** publish the `npx/` workspace as the `aicite` npm package (supports `npx aicite@latest setup`).
+- **Primary:** publish the `npx/` package as the `aicite` npm package (supports `npx aicite@latest setup`).
 - **Planned:** provide a Python/uv distribution with a similar UX (see `uvx/`).
 
 ### Environments
@@ -127,7 +127,7 @@ AiCite is not a running service, so monitoring is primarily **release and qualit
 
 ### Monitoring (quality signals)
 
-- Track CLI smoke test status (`npm run smoke:npx`).
+- Track CLI smoke test status (`cd npx && npm run smoke`).
 - Track template correctness by running setup in a scratch repo and checking generated file tree.
 
 ---
@@ -139,7 +139,7 @@ AiCite is not a running service, so monitoring is primarily **release and qualit
 | Overview | ✅ Complete | Captures current scaffold-only architecture.
 | Key Components | ✅ Complete | Based on repo structure and CLI implementation.
 | Design Decisions | ✅ Complete | Derived from code and package scripts.
-| Technology Stack | ✅ Complete | Node >=18; npm workspaces.
+| Technology Stack | ✅ Complete | Node >=18; standalone npm package under `npx/`.
 | Deployment Strategy | 🔄 In Progress | npm path is clear; uvx is planned.
 | Scalability/Performance | 🔄 In Progress | No explicit targets set yet.
 | Security | ✅ Complete | Offline, safe writes, minimal deps.

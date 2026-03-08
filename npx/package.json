@@ -1,6 +1,6 @@
 {
   "name": "aicite",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Open-source CLI utility to bootstrap AI assistant project context and agent prompts.",
   "license": "MIT",
   "keywords": [
@@ -26,6 +26,7 @@
   },
   "scripts": {
     "prepack": "node scripts/sync-templates.js",
+    "pack:dry": "npm pack --dry-run",
     "smoke": "node bin/aicite.js --help"
   }
 }

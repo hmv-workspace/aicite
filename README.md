@@ -12,11 +12,13 @@ Monorepo for the **AiCite** project.
 - Smoke-test the npm CLI:
 
 ```bash
-npm run smoke:npx
+cd npx
+npm run smoke
 ```
 
 - Dry-run pack (what would be published to npm):
 
 ```bash
-npm run pack:npx
+cd npx
+npm run pack:dry
 ```

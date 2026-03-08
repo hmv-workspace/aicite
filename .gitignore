@@ -2,7 +2,7 @@ node_modules/
 .DS_Store
 npm-debug.log*
 
-# Generated during `npm pack` / `npm publish` for the npm workspace
+# Generated during `npm pack` / `npm publish`
 npx/templates/
 npx/*.tgz
 .kilocodemodes

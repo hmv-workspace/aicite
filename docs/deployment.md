@@ -38,7 +38,7 @@ AiCite has no long-running runtime environments.
 
 | Environment | Purpose | How used |
 |---|---|---|
-| Local development | iterate on CLI/templates | run workspace scripts from repo root |
+| Local development | iterate on CLI/templates | run package scripts from `npx/` |
 | npm registry | distribution channel | `npm publish` from `npx/` |
 | User machines | runtime | `npx aicite@latest setup …` |
 
@@ -58,7 +58,8 @@ AiCite has no long-running runtime environments.
 3. Validate the publish artifact contents:
 
 ```bash
-npm run pack:npx
+cd npx
+npm run pack:dry
 ```
 
 This triggers the `npx/` `prepack` script, which syncs templates into `npx/templates/`.
@@ -66,7 +67,8 @@ This triggers the `npx/` `prepack` script, which syncs templates into `npx/templ
 ### 2) Smoke-check the CLI locally
 
 ```bash
-npm run smoke:npx
+cd npx
+npm run smoke
 ```
 
 ### 3) Publish
@@ -113,14 +115,14 @@ AiCite has no production runtime to monitor. “Monitoring” is primarily **rel
 
 Recommended checks per release:
 
-- **Pack integrity:** run `npm run pack:npx` and ensure `npx/templates/basic/` contains the expected templates.
-- **CLI smoke:** run `npm run smoke:npx`.
+- **Pack integrity:** run `cd npx && npm run pack:dry` and ensure `npx/templates/basic/` contains the expected templates.
+- **CLI smoke:** run `cd npx && npm run smoke`.
 - **Registry smoke:** run `npx --yes aicite@latest --help` and a minimal `setup` in a scratch directory.
 
 Alerting:
 
 - There is no automated alerting configured in this repo.
-- If you add CI later, the simplest “alert” is to fail the pipeline on `smoke:npx` / `pack:npx`.
+- If you add CI later, the simplest “alert” is to fail the pipeline on `cd npx && npm run smoke` / `cd npx && npm run pack:dry`.
 
 ---
 
@@ -154,7 +156,7 @@ There is no repository CI/CD workflow configured in `.github/workflows/` as of 8
 
 Current release process is manual:
 
-- validate with `npm run smoke:npx` and `npm run pack:npx`
+- validate with `cd npx && npm run smoke` and `cd npx && npm run pack:dry`
 - publish from `npx/`
 
 ---
@@ -169,7 +171,7 @@ Current release process is manual:
 ### Templates missing from published package
 
 - Symptoms: users see “Unable to locate templates” or generated output is incomplete.
-- Fix: ensure `prepack` ran (it syncs `templates/` → `npx/templates/`); verify with `npm run pack:npx` before publishing.
+- Fix: ensure `prepack` ran (it syncs `templates/` → `npx/templates/`); verify with `cd npx && npm run pack:dry` before publishing.
 
 ### Setup overwrote files unexpectedly
 
