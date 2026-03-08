@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "aicite"
+version = "0.0.4"
+description = "Open-source CLI utility to bootstrap AI assistant project context and agent prompts."
+license = "MIT"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{ include = "aicite" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+click = "^8.0.0"
+
+[tool.poetry.scripts]
+aicite = "aicite.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
