@@ -29,13 +29,16 @@ AiCite is a **local scaffolding system**: a CLI (`aicite setup`) copies a curate
 
 | Component | Location | Responsibility |
 |---|---|---|
-| Repo root (non-package) | `README.md`, `docs/`, `templates/`, `npx/` | Holds source templates + documentation; the publishable npm package lives under `npx/`.
-| npm CLI package | `npx/` | Publishable package that provides the `aicite` binary.
-| CLI entrypoint | `npx/bin/aicite.js` | Parses args; resolves templates; filters targets; writes files; prints summary.
+| Repo root (non-package) | `README.md`, `docs/`, `templates/`, `npx/`, `uvx/` | Holds source templates + documentation; the publishable npm and Python packages live under `npx/` and `uvx/` respectively.
+| npm CLI package | `npx/` | Publishable package that provides the `aicite` binary for JavaScript environments.
+| JavaScript CLI entrypoint | `npx/bin/aicite.js` | Parses args; resolves templates; filters targets; writes files; prints summary.
+| Python CLI package | `uvx/` | Publishable package that provides the `aicite` binary for Python environments.
+| Python CLI entrypoint | `uvx/aicite/cli.py` | Parses args; resolves templates; filters targets; writes files; prints summary.
 | Template source (repo) | `templates/basic/` | Intended “source of truth” template set under version control.
 | Templates shipped with npm package | `npx/templates/basic/` | Template set bundled into the published npm package.
-| Template sync script | `npx/scripts/sync-templates.js` | Copies repo templates into `npx/templates/` during `prepack`.
-| Future Python distribution (planned) | `uvx/` | Reserved folder for a future `uvx aicite setup` UX.
+| Templates shipped with Python package | `uvx/templates/basic/` | Template set bundled into the published PyPI package.
+| JavaScript template sync script | `npx/scripts/sync-templates.js` | Copies repo templates into `npx/templates/` during `prepack`.
+| Python template sync script | `uvx/scripts/sync-templates.py` | Copies repo templates into `uvx/templates/` during build.
 
 ### Component Interactions (runtime flow)
 
@@ -70,9 +73,13 @@ AiCite is a **local scaffolding system**: a CLI (`aicite setup`) copies a curate
 
 | Category | Technology | Version | Purpose |
 |---|---|---|---|
-| Language/Runtime | Node.js | `>=18` | Run the CLI reliably across environments.
+| Language/Runtime | Node.js | `>=18` | Run the JavaScript CLI reliably across environments.
+| Language/Runtime | Python | `>=3.8` | Run the Python CLI reliably across environments.
 | Packaging | npm | N/A | Publish `aicite` and run via `npx`.
-| Repo structure | Standalone npm package in `npx/` | N/A | Keep `node_modules` and the lockfile scoped to `npx/` while the repo root remains non-package.
+| Packaging | PyPI | N/A | Publish `aicite` and run via `uvx`.
+| JavaScript Package Management | npm | N/A | Manage dependencies and scripts for the JavaScript CLI.
+| Python Package Management | Poetry | N/A | Manage dependencies and scripts for the Python CLI.
+| Repo structure | Standalone npm package in `npx/` and Python package in `uvx/` | N/A | Keep dependencies and build artifacts scoped to respective directories.
 
 ---
 
@@ -81,7 +88,7 @@ AiCite is a **local scaffolding system**: a CLI (`aicite setup`) copies a curate
 ### Distribution
 
 - **Primary:** publish the `npx/` package as the `aicite` npm package (supports `npx aicite@latest setup`).
-- **Planned:** provide a Python/uv distribution with a similar UX (see `uvx/`).
+- **Secondary:** publish the `uvx/` package as the `aicite` PyPI package (supports `uvx aicite setup`).
 
 ### Environments
 
@@ -89,7 +96,7 @@ AiCite itself is a CLI and does not have runtime environments like a server appl
 
 | Environment | Purpose | Deployment Method |
 |---|---|---|
-| Developer machine | Run `aicite setup` to scaffold a target repo | `npx aicite@latest setup` or global install.
+| Developer machine | Run `aicite setup` to scaffold a target repo | `npx aicite@latest setup` (JavaScript) or `uvx aicite setup` (Python).
 
 ---
 
@@ -140,7 +147,7 @@ AiCite is not a running service, so monitoring is primarily **release and qualit
 | Key Components | ✅ Complete | Based on repo structure and CLI implementation.
 | Design Decisions | ✅ Complete | Derived from code and package scripts.
 | Technology Stack | ✅ Complete | Node >=18; standalone npm package under `npx/`.
-| Deployment Strategy | 🔄 In Progress | npm path is clear; uvx is planned.
+| Deployment Strategy | ✅ Complete | Both npm and uvx/PyPI distribution paths are implemented.
 | Scalability/Performance | 🔄 In Progress | No explicit targets set yet.
 | Security | ✅ Complete | Offline, safe writes, minimal deps.
 | Maintenance/Monitoring | 🔄 In Progress | Need confirmation of desired release/validation workflow.

@@ -36,7 +36,7 @@ AiCite is an open-source scaffolding CLI that bootstraps a project’s AI-assist
 | OBJ-002 | Support selective generation | User can generate only chosen targets (`--only`, `--copilot`, `--kilocode`, `--docs`).
 | OBJ-003 | Preserve existing user work by default | Re-running without `--force` does not overwrite existing generated files.
 | OBJ-004 | Keep templates versioned and publishable | npm package includes templates at publish time (prepack sync).
-| OBJ-005 | Prepare for additional distributions | A placeholder for Python/uvx distribution exists (not implemented).
+| OBJ-005 | Provide Python/uvx distribution | Working Python CLI available via `uvx aicite setup`.
 
 ---
 
@@ -146,7 +146,7 @@ AiCite is an open-source scaffolding CLI that bootstraps a project’s AI-assist
 |---|---|---|
 | npm registry distribution (`npx aicite@latest …`) | Primary installation UX | ✅ Exists
 | Template content quality | Determines real usefulness of generated docs/agents | 🔄 In Progress
-| Future: `uvx` distribution | Optional UX parity for Python environments | ⚠️ Planned (not implemented)
+| Python/uvx distribution | Optional UX parity for Python environments | ✅ Implemented
 
 ---
 
@@ -168,7 +168,7 @@ AiCite is an open-source scaffolding CLI that bootstraps a project’s AI-assist
 | Requirements doc (this) | 🔄 In Progress | Initial draft created; confirm open questions below.
 | Architecture doc | 🔄 In Progress | Updating next.
 | Template content completeness | 🔄 In Progress | Some templates still placeholders depending on package snapshot.
-| uvx distribution | ⚠️ Planned | Folder reserved only.
+| uvx distribution | ✅ Complete | Python CLI implemented and published to PyPI.
 
 ---
 
