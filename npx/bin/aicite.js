@@ -7,9 +7,33 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const packageJson = require('../package.json');
+
+const VERSION = packageJson.version;
 
 function printHelp() {
-  process.stdout.write(`aicite - bootstrap AI assistant project context\n\nUsage:\n  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--docs]\n  aicite --help\n\nCommands:\n  setup     Create project assistant files in the current directory\n\nOptions:\n  --force    Overwrite existing generated files\n  --only     Comma-separated targets: copilot,kilocode,docs (default: all). Note: docs are always generated.\n  --copilot  Generate only .github/ (Copilot)\n  --kilocode Generate only .kilocode/ (KiloCode)\n  --docs     Generate only docs/\n`);
+  process.stdout.write(`aicite - bootstrap AI assistant project context
+
+Usage:
+  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--docs]
+  aicite --help
+  aicite --version
+
+Commands:
+  setup     Create project assistant files in the current directory
+
+Options:
+  --force    Overwrite existing generated files
+  --only     Comma-separated targets: copilot,kilocode,docs (default: all). Note: docs are always generated.
+  --copilot  Generate only .github/ (Copilot)
+  --kilocode Generate only .kilocode/ (KiloCode)
+  --docs     Generate only docs/
+  --version  Show current version
+`);
+}
+
+function printVersion() {
+  process.stdout.write(`aicite ${VERSION}\n`);
 }
 
 function parseArgs(argv) {
@@ -149,6 +173,11 @@ function main() {
   }
 
   const { positional, flags, options } = parsed;
+
+  if (flags.has('--version') || flags.has('-v')) {
+    printVersion();
+    process.exit(0);
+  }
 
   if (flags.has('--help') || flags.has('-h') || positional.length === 0) {
     printHelp();

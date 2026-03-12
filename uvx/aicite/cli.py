@@ -11,6 +11,8 @@ import argparse
 import shutil
 from pathlib import Path
 
+__version__ = "0.0.4"
+
 def print_help():
     help_text = """
 aicite - bootstrap AI assistant project context
@@ -18,6 +20,7 @@ aicite - bootstrap AI assistant project context
 Usage:
   aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--docs]
   aicite --help
+  aicite --version
 
 Commands:
   setup     Create project assistant files in the current directory
@@ -28,8 +31,12 @@ Options:
   --copilot  Generate only .github/ (Copilot)
   --kilocode Generate only .kilocode/ (KiloCode)
   --docs     Generate only docs/
+  --version  Show current version
     """.strip()
     print(help_text)
+
+def print_version():
+    print(f"aicite {__version__}")
 
 def resolve_template_dir():
     package_dir = Path(__file__).parent
@@ -131,6 +138,7 @@ def setup(cwd, force, targets):
 def main():
     parser = argparse.ArgumentParser(description="AiCite CLI", add_help=False)
     parser.add_argument("-h", "--help", action="store_true", help="Show this help message and exit")
+    parser.add_argument("-v", "--version", action="store_true", help="Show current version")
     subparsers = parser.add_subparsers(title="Commands", dest="command")
 
     setup_parser = subparsers.add_parser("setup", help="Create project assistant files", add_help=False)
@@ -141,6 +149,10 @@ def main():
     setup_parser.add_argument("--docs", action="store_true", help="Generate only docs/")
 
     args = parser.parse_args()
+
+    if args.version:
+        print_version()
+        sys.exit(0)
 
     if args.help or args.command is None:
         print_help()

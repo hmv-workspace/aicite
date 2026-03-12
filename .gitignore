@@ -5,7 +5,6 @@ npm-debug.log*
 # Generated during `npm pack` / `npm publish`
 npx/templates/
 npx/*.tgz
-.kilocodemodes
 .github/*
 
 # Python
