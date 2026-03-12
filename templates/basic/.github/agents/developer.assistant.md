@@ -53,5 +53,5 @@ Create and maintain these three documents **with developer-verified facts only**
 3. `.github/copilot-instructions.md` — instructions for Copilot users in this repo, including how to use the above documents and any specific conventions or patterns to follow.
 
 **Do not create any other documents unless explicitly instructed by the developer.**  
-**Do not modify** `.github/requirements.md` or `.github/architecture.md` (owned by Architect-Assistant).  
+**Do not modify** `docs/requirements.md` or `docs/architecture.md` (owned by Architect-Assistant).  
 **Do not change architecture/design** unless the developer explicitly requests it and the Architect-Assistant confirms.
