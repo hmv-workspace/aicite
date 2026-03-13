@@ -1,7 +1,7 @@
 # AiCite — Implementation
 
-> **Document Version:** 0.1 (draft)  
-> **Last Updated:** 8 March 2026  
+> **Document Version:** 0.2 (draft)  
+> **Last Updated:** 13 March 2026  
 > **Scope:** Implementation details for the AiCite monorepo and the publishable npm CLI.
 
 ---
@@ -160,3 +160,65 @@ If you’re developing locally, verify `templates/basic/` exists and that `npx/s
 | Template packaging (npm) | ✅ Complete | Template sync on `prepack` (`npx/scripts/sync-templates.js`) |
 | Template packaging (PyPI) | ✅ Complete | Template sync using `uvx/scripts/sync-templates.py` |
 | Automated tests | 🔄 In Progress | Only smoke-style checks exist today |
+
+---
+
+## Learnings (13 March 2026)
+
+### PyPI Publishing Commands
+
+**Build the package:**
+```bash
+cd uvx
+uv build
+```
+
+**Test locally with wheel:**
+```bash
+uvx --from ./dist/aicite-0.0.6-py3-none-any.whl aicite setup
+```
+
+**Publish to TestPyPI:**
+```bash
+cd uvx
+uvx twine upload --repository testpypi dist/aicite-0.0.6-py3-none-any.whl
+```
+
+**Test from TestPyPI:**
+```bash
+uvx --index-url https://test.pypi.org/simple/ aicite setup
+```
+
+**Publish to PyPI (production):**
+```bash
+cd uvx
+uvx twine upload --repository pypi dist/aicite-0.0.6-py3-none-any.whl
+```
+
+**Using uv directly:**
+```bash
+cd uvx
+uv build
+uv publish
+```
+
+### NPM Publishing Commands
+
+**Build npm package:**
+```bash
+cd npx
+npm install
+npm run pack:dry  # dry-run to verify contents
+npm pack         # create tarball
+```
+
+**Publish to npm:**
+```bash
+cd npx
+npm publish
+```
+
+### Template Resolution Order (at runtime)
+
+1. For npm: `npx/templates/basic/` (packaged) → `templates/basic/` (repo fallback)
+2. For Python: `uvx/templates/basic/` (packaged) → `templates/basic/` (repo fallback)

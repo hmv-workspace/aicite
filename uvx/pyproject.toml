@@ -1,23 +1,23 @@
-[tool.poetry]
+[project]
 name = "aicite"
-version = "0.0.4"
+version = "0.0.6"
 description = "Open-source CLI utility to bootstrap AI assistant project context and agent prompts."
-license = "MIT"
-authors = ["Your Name <you@example.com>"]
+license = { text = "MIT" }
+authors = [{ name = "Mehul H", email = "hmv.workspace@gmail.com" }]
 readme = "README.md"
-packages = [{ include = "aicite" }]
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Operating System :: OS Independent",
-]
+requires-python = ">=3.8"
+dependencies = ["click>=8.0.0"]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-click = "^8.0.0"
-
-[tool.poetry.scripts]
+[project.scripts]
 aicite = "aicite.cli:main"
 
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests*"]
+
+[tool.setuptools]
+include-package-data = true
+
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
