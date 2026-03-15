@@ -175,3 +175,32 @@ This workflow ensures that everyone is aligned from the start, reduces rework, a
 - **Version-controlled context**: Documentation and AI guidance are tracked with your code
 - **Easy to adopt**: One command to get started with best practices
 - **Scalable**: Grows with your project from small apps to large systems
+
+## Contributing
+
+We welcome contributions from the community! AiCite is built with specs-driven development, and we follow these principles in our own work. Here's how you can contribute:
+
+### Getting Started
+
+1. Fork the repository
+2. Clone your forked repository
+3. Set up the development environment (see `docs/implementation.md` for details)
+4. Make your changes
+5. Run the tests (see `docs/implementation.md` for test commands)
+6. Submit a pull request
+
+### Contribution Guidelines
+
+- Follow the specs-driven development approach
+- Keep changes focused on a single issue or feature
+- Update documentation to reflect your changes
+- Test your changes before submitting a pull request
+- Be respectful and inclusive in your interactions with other contributors
+
+### Reporting Issues
+
+If you find a bug or have a feature request, please open an issue on GitHub. Include as much information as possible, including steps to reproduce the issue.
+
+### License
+
+AiCite is open-source software licensed under the MIT license.
