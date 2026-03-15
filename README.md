@@ -1,6 +1,16 @@
 # AiCite
 
-Monorepo for the **AiCite** project.
+Monorepo for the **AiCite** project — an open-source scaffolding CLI built with **specs-driven development (SDD)**. AiCite bootstraps a project’s AI-assistant context so humans and AI agents can stay aligned through a shared, repo-local documentation set and agent guidance files.
+
+## What is Specs-Driven Development?
+
+AiCite follows an SDD approach: we define comprehensive specifications for requirements, architecture, and implementation before writing code. This ensures consistency, clarity, and alignment between all stakeholders.
+
+Key benefits:
+- **Clear requirements first**: Every feature is defined with measurable objectives
+- **Architecture-driven design**: Solutions are planned before implementation
+- **Living documentation**: Specifications evolve with the project
+- **Alignment across tools**: AI agents and humans work from the same source of truth
 
 ## Packages
 
