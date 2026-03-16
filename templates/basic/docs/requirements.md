@@ -2,7 +2,7 @@
 
 > **Template Version:** 1.0  
 > **Created:** February 2026  
-> **Purpose:** This is a template document that provides a standardized structure for requirements documentation. Replace all placeholders (in brackets) with project-specific details.
+> **Scope:** This template defines the structure for capturing WHAT a project needs to build. It serves as a single source of truth for requirements, including functional specifications, user stories, non-functional targets (performance, security, scalability), constraints, and assumptions. Replace all placeholders (in brackets) with project-specific details.
 
 ---
 

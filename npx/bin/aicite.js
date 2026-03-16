@@ -142,7 +142,7 @@ function setup({ cwd, force, targets }) {
   const shouldInclude = (relPath) => {
     const first = relPath.split(path.sep)[0];
     if (first === '.github') return targets.has('copilot');
-    if (first === '.kilocode') return targets.has('kilocode');
+    if (first === '.kilocode' || first === '.kilocodemodes') return targets.has('kilocode');
     if (first === '.cursor') return targets.has('cursor');
     if (first === 'docs') return targets.has('docs');
     return true;

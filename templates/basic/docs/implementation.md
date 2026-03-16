@@ -2,7 +2,7 @@
 
 > **Template Version:** 1.0  
 > **Created:** February 2026  
-> **Purpose:** This is a template document that provides a standardized structure for implementation planning. Replace all placeholders (in brackets) with project-specific details.
+> **Scope:** This template defines the structure for documenting HOW to build a solution. It serves as a single source of truth for implementation approach, task breakdown, technical specifications, code structure, API documentation, database design, testing strategy, and development debugging guidelines. Replace all placeholders (in brackets) with project-specific details.
 
 ---
 

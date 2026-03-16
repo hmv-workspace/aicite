@@ -2,7 +2,7 @@
 
 > **Template Version:** 1.0  
 > **Created:** February 2026  
-> **Purpose:** This is a template document that provides a standardized structure for architecture documentation. Replace all placeholders (in brackets) with project-specific details.
+> **Scope:** This template defines the structure for documenting HOW a system is designed and architected. It serves as a single source of truth for architectural overview, components and interactions, design decisions, technology stack, scalability and security approaches, deployment strategy, and maintenance plans. Replace all placeholders (in brackets) with project-specific details.
 
 ---
 

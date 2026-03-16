@@ -1,23 +1,26 @@
 # AiCite — Implementation
 
-> **Document Version:** 0.2 (draft)  
-> **Last Updated:** 13 March 2026  
-> **Scope:** Implementation details for the AiCite monorepo and the publishable npm CLI.
+> **Document Version:** 1.0
+> **Last Updated:** 16 March 2026  
+> **Scope:** This document defines HOW to implement and develop AiCite. It covers the current implementation status, repository structure, CLI behavior, local development setup, template development workflow, testing strategy, and troubleshooting guidelines. It applies to both the Node.js and Python CLI implementations.
 
 ---
 
 ## Document Index
 
-- **WHAT to build:** [requirements.md](./requirements.md)
-- **HOW it’s designed:** [architecture.md](./architecture.md)
-- **HOW to build it:** this document
-- **HOW to publish/deploy/operate:** [deployment.md](./deployment.md)
+- [What's Implemented (Current State)](#whats-implemented-current-state)
+- [Repository Structure](#repository-structure)
+- [CLI Behavior (Implementation Notes)](#cli-behavior-implementation-notes)
+- [Local Development](#local-development)
+- [Template Development Workflow](#template-development-workflow)
+- [Testing Strategy (Current)](#testing-strategy-current)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
 ## What’s Implemented (Current State)
 
-AiCite is implemented as both a **Node.js CLI** and a **Python CLI** that scaffold a target repository by copying a **versioned template tree** into the user’s current working directory.
+AiCite is implemented as both a **Node.js CLI** and a **Python CLI** that scaffold a target repository by copying a **versioned template tree** into the user's current working directory.
 
 In this repo today:
 
@@ -50,7 +53,7 @@ In this repo today:
     │   └── cli.py               # Python CLI implementation
     ├── scripts/
     │   └── sync-templates.py    # pre-build template sync
-    ├── templates/basic/         # templates shipped in the PyPI package
+    ├── templates/basic/          # templates shipped in the PyPI package
     ├── README.md                # Python package documentation
     └── LICENSE                  # MIT license
 ```
@@ -67,8 +70,8 @@ In this repo today:
 ### Options
 
 - `--force` — overwrite existing generated files.
-- `--only copilot,kilocode,docs` — generate only selected targets (docs are always included).
-- `--copilot` / `--kilocode` / `--docs` — convenience flags; if any is specified, docs are still included.
+- `--only copilot,kilocode,cursor,docs` — generate only selected targets (docs are always included).
+- `--copilot` / `--kilocode` / `--cursor` / `--docs` — convenience flags; if any is specified, docs are still included.
 
 ### Template resolution
 
@@ -83,6 +86,7 @@ At runtime the CLI resolves templates in this order:
 - Files are filtered by their first path segment:
 	- `.github/…` only when the Copilot target is enabled
 	- `.kilocode/…` only when the KiloCode target is enabled
+	- `.cursor/…` only when the Cursor target is enabled
 	- `docs/…` only when the docs target is enabled (and docs are forced on)
 - Existing files are skipped unless `--force` is used.
 
@@ -138,110 +142,11 @@ This runs `npm pack --dry-run` and triggers `prepack` (template sync) as part of
 
 ## Troubleshooting
 
-### “Unable to locate templates”
+### "Unable to locate templates"
 
 The CLI throws this error if it cannot find either:
 
 - `npx/templates/basic/` (packaged) or
 - `templates/basic/` (repo fallback)
 
-If you’re developing locally, verify `templates/basic/` exists and that `npx/scripts/sync-templates.js` runs during pack/publish.
-
----
-
-## Tracker Status
-
-| Area | Status | Notes |
-|---|---|---|
-| Node.js CLI implementation | ✅ Complete | Implemented in `npx/bin/aicite.js` |
-| Python CLI implementation | ✅ Complete | Implemented in `uvx/aicite/cli.py` |
-| npm package publishing | ✅ Complete | Published to npm registry |
-| PyPI package publishing | ✅ Complete | Published to PyPI registry |
-| Template packaging (npm) | ✅ Complete | Template sync on `prepack` (`npx/scripts/sync-templates.js`) |
-| Template packaging (PyPI) | ✅ Complete | Template sync using `uvx/scripts/sync-templates.py` |
-| Automated tests | 🔄 In Progress | Only smoke-style checks exist today |
-
----
-
-## Learnings (13 March 2026)
-
-### PyPI Publishing Commands
-
-**Build the package:**
-```bash
-cd uvx
-uv build
-```
-
-**Test locally with wheel:**
-```bash
-uvx --from ./dist/aicite-0.0.6-py3-none-any.whl aicite setup
-```
-
-**Publish to TestPyPI:**
-```bash
-cd uvx
-uvx twine upload --repository testpypi dist/aicite-0.0.6-py3-none-any.whl
-```
-
-**Test from TestPyPI:**
-```bash
-uvx --index-url https://test.pypi.org/simple/ aicite setup
-```
-
-**Publish to PyPI (production):**
-```bash
-cd uvx
-uvx twine upload --repository pypi dist/aicite-0.0.6-py3-none-any.whl
-```
-
-**Using uv directly:**
-```bash
-cd uvx
-uv build
-uv publish
-```
-
-### NPM Publishing Commands
-
-**Build npm package:**
-```bash
-cd npx
-npm install
-npm run pack:dry  # dry-run to verify contents
-npm pack         # create tarball
-```
-
-**Publish to npm:**
-```bash
-cd npx
-npm publish
-```
-
-### Testing Practice for Cursor IDE Support (16 March 2026)
-
-When adding new IDE support (e.g., Cursor IDE), follow this testing workflow:
-
-1. **NPX Testing:**
-   - Run `npm run pack:dry` to verify package contents
-   - This includes Cursor IDE agent files in templates
-
-2. **UVX Testing:**
-   - Build with `uv build`
-   - Publish to TestPyPI for real testing
-   - Use `--index-url https://test.pypi.org/simple/` to test
-   - Example: `uvx --index-url https://test.pypi.org/simple/ aicite@<version> setup --cursor`
-
-3. **Verification:**
-   - Test the generated files in a clean directory
-   - Ensure correct files are created for each flag
-   - Check for file leaks (e.g., `.kilocodemodes` should not appear with `--cursor`)
-
-4. **Version Management:**
-   - Use `.dev1` suffix for test versions (e.g., `0.0.7.dev1`)
-   - Revert to final version (e.g., `0.0.7`) after testing is complete
-
-### Template Resolution Order (at runtime)
-
-1. For npm: `npx/templates/basic/` (packaged) → `templates/basic/` (repo fallback)
-2. For Python: `uvx/templates/basic/` (packaged) → `templates/basic/` (repo fallback)
+If you're developing locally, verify `templates/basic/` exists and that `npx/scripts/sync-templates.js` runs during pack/publish.

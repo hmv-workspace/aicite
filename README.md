@@ -7,7 +7,7 @@ Open-source specs-driven development (SDD) scaffolding CLI for AI agent alignmen
 AiCite is a powerful yet simple CLI tool that helps teams get started with specs-driven development. It creates a shared context for both humans and AI agents by generating:
 
 - **Centralized documentation**: Requirements, architecture, implementation, and deployment guides in `docs/`
-- **AI agent guidance**: Configuration for tools like GitHub Copilot and KiloCode (with extensibility for more tools)
+- **AI agent guidance**: Configuration for tools like GitHub Copilot, KiloCode, and Cursor IDE (with extensibility for more tools)
 - **Version-controlled context**: All artifacts are local to your repository for full control
 
 ## Why Use AiCite?
@@ -55,6 +55,11 @@ npx aicite@latest setup --only docs
 npx aicite@latest setup --copilot
 ```
 
+#### Generate documentation and Cursor IDE guidance
+```bash
+npx aicite@latest setup --cursor
+```
+
 #### Generate documentation and KiloCode guidance
 ```bash
 npx aicite@latest setup --kilocode
@@ -67,8 +72,9 @@ npx aicite@latest setup --force
 
 ### Options
 - `--force`: Overwrite existing generated files
-- `--only copilot,kilocode,docs`: Generate only selected targets (docs are always included)
-- `--copilot` / `--kilocode` / `--docs`: Convenience flags for selective generation
+- `--only copilot,kilocode,cursor,docs`: Generate only selected targets (docs are always included)
+- `--cursor` / `--copilot` / `--kilocode` / `--docs`: Convenience flags for selective generation
+- `--cursor` / `--copilot` / `--kilocode` / `--docs`: Convenience flags for selective generation
 
 ## What Gets Generated?
 
@@ -77,6 +83,7 @@ npx aicite@latest setup --force
 | `docs/` | Requirements, architecture, implementation, and deployment guides |
 | `copilot` | GitHub Copilot agent personas and guidance under `.github/` |
 | `kilocode` | KiloCode configuration including `.kilocodemodes` file and `.kilocode/` folder |
+| `cursor` | Cursor IDE agent configuration under `.cursor/` |
 | (future) | Support for additional AI tools and agents |
 
 ## Specs-Driven Development

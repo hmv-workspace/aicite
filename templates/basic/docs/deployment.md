@@ -2,7 +2,7 @@
 
 > **Template Version:** 1.0  
 > **Created:** February 2026  
-> **Purpose:** This is a template document that provides a standardized structure for deployment planning. Replace all placeholders (in brackets) with project-specific details.
+> **Scope:** This template defines the structure for documenting HOW to deploy, operate, and maintain a solution in all environments. It serves as a single source of truth for environment configurations, deployment procedures, rollback and disaster recovery strategies, post-deployment verification, CI/CD pipeline configuration, security implementation, and monitoring setup. Replace all placeholders (in brackets) with project-specific details.
 
 ---
 

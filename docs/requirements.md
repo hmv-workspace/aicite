@@ -1,17 +1,22 @@
 # AiCite — Requirements
 
-> **Document Version:** 0.1 (draft)
+> **Document Version:** 1.0
 > **Last Updated:** 16 March 2026
-> **Scope Note:** This document captures (a) what is already implemented in this repo today and (b) the near-term intended direction described by the project owner. Items not yet implemented are explicitly marked.
+> **Scope:** This document defines WHAT AiCite is and what it should do. It captures the current implementation status and near-term roadmap. It includes project goals, user requirements, functional and non-functional specifications, constraints, and assumptions. Items not yet implemented are explicitly marked.
 
 ---
 
 ## Document Index
 
-- **WHAT to build:** this document
-- **HOW it’s designed:** [architecture.md](./architecture.md)
-- **HOW to build it (templates/CLI details):** [implementation.md](./implementation.md)
-- **HOW to publish/deploy/operate:** [deployment.md](./deployment.md)
+- [Project Goals and Objectives](#project-goals-and-objectives)
+- [Users and Use Cases](#users-and-use-cases)
+- [Functional Requirements](#functional-requirements)
+- [Non-Functional Requirements](#non-functional-requirements)
+- [Constraints and Assumptions](#constraints-and-assumptions)
+- [Dependencies](#dependencies)
+- [Glossary](#glossary)
+- [Tracker Status](#tracker-status)
+- [Open Questions (for the project owner)](#open-questions-for-the-project-owner)
 
 ---
 
@@ -23,9 +28,9 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 
 ### Goals (outcomes)
 
-- **G1 — One-command setup:** a developer can initialize the framework via a single command such as `npx aicite@latest setup`.
+- **G1 — One-command setup:** a developer can initialize the framework via a single command such as `npx aicite@latest setup` or `uvx aicite setup`.
 - **G2 — Shared source of truth:** the project gets a central, versioned documentation folder (`docs/`) for requirements/architecture/implementation/deployment.
-- **G3 — Multi-tool agent guidance:** generate vendor/tool-specific assistant configuration (e.g., GitHub Copilot; KiloCode) from templates (with extensibility for more tools).
+- **G3 — Multi-tool agent guidance:** generate vendor/tool-specific assistant configuration (e.g., GitHub Copilot; KiloCode; Cursor IDE) from templates (with extensibility for more tools).
 - **G4 — Low-friction adoption:** minimal prerequisites, non-interactive CLI, safe defaults (no overwrites without explicit intent).
 - **G5 — Project tracking:** Enable real-time progress tracking through documentation with status indicators for requirements, architecture, and implementation.
 
@@ -36,7 +41,7 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 | OBJ-001 | Provide working `setup` command | Running `aicite setup` writes expected files and prints a summary.
 | OBJ-002 | Support selective generation | User can generate only chosen targets (`--only`, `--copilot`, `--kilocode`, `--cursor`, `--docs`).
 | OBJ-003 | Preserve existing user work by default | Re-running without `--force` does not overwrite existing generated files.
-| OBJ-004 | Keep templates versioned and publishable | npm package includes templates at publish time (prepack sync).
+| OBJ-004 | Keep templates versioned and publishable | npm package includes templates at publish time (prepack sync); Python package includes templates at build time.
 | OBJ-005 | Provide Python/uvx distribution | Working Python CLI available via `uvx aicite setup`.
 
 ---

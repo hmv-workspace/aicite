@@ -1,17 +1,23 @@
 # AiCite — Deployment (Publishing & Release Ops)
 
-> **Document Version:** 0.1 (draft)  
-> **Last Updated:** 8 March 2026  
-> **Scope:** AiCite is a CLI (no servers). “Deployment” here means publishing the `aicite` npm package and verifying it works via `npx`.
+> **Document Version:** 1.0
+> **Last Updated:** 16 March 2026  
+> **Scope:** This document defines HOW to deploy and release AiCite. Since AiCite is a CLI tool (no servers), deployment primarily involves publishing the npm and PyPI packages. It covers release artifacts, publish procedures, verification steps, rollback strategies, and CI/CD pipeline configuration.
 
 ---
 
 ## Document Index
 
-- **WHAT to build:** [requirements.md](./requirements.md)
-- **HOW it’s designed:** [architecture.md](./architecture.md)
-- **HOW to build it:** [implementation.md](./implementation.md)
-- **HOW to publish/deploy/operate:** this document
+- [Release Artifacts](#release-artifacts)
+- [Environments](#environments)
+- [Publish Procedure (npm)](#publish-procedure-npm)
+- [Publish Procedure (PyPI)](#publish-procedure-pypi)
+- [Verification (Post-Publish)](#verification-post-publish)
+- [Monitoring & Alerting (Release Quality)](#monitoring-alerting-release-quality)
+- [Rollback / Mitigation](#rollback-mitigation)
+- [CI/CD Pipeline (Current)](#cicd-pipeline-current)
+- [Common Issues & Troubleshooting](#common-issues-troubleshooting)
+- [Tracker Status](#tracker-status)
 
 ---
 
@@ -132,40 +138,6 @@ Notes:
 - The `python -m build` command creates both source distribution and wheel files in the `dist/` directory.
 - `twine` is used to upload the package to PyPI.
 - Ensure your PyPI credentials are properly configured (either via `~/.pypirc` or environment variables).
-
-### 1) Prepare the release
-
-1. Update `npx/package.json` `version`.
-2. Ensure templates are correct under `templates/basic/`.
-3. Validate the publish artifact contents:
-
-```bash
-cd npx
-npm run pack:dry
-```
-
-This triggers the `npx/` `prepack` script, which syncs templates into `npx/templates/`.
-
-### 2) Smoke-check the CLI locally
-
-```bash
-cd npx
-npm run smoke
-```
-
-### 3) Publish
-
-From repo root:
-
-```bash
-cd npx
-npm publish
-```
-
-Notes:
-
-- `npm publish` will run `prepublishOnly`/`prepack` hooks as applicable; in this repo `prepack` is the important one.
-- Ensure `LICENSE`, `README.md`, `bin/`, and `templates/` are present in the published tarball (see `files` in `npx/package.json`).
 
 ---
 

@@ -1,17 +1,22 @@
 # AiCite — Architecture
 
-> **Document Version:** 0.1 (draft)
+> **Document Version:** 1.0
 > **Last Updated:** 16 March 2026
-> **Scope Note:** This architecture reflects the current repo implementation (a minimal Node.js CLI that copies versioned templates into a target repo). Planned/future distribution options are explicitly labeled.
+> **Scope:** This document defines HOW AiCite is designed and structured. It describes the current implementation (a minimal CLI that copies versioned templates) and planned distribution options. It covers architectural components, design decisions, technology stack, scalability, security, and maintenance plans.
 
 ---
 
 ## Document Index
 
-- **WHAT to build:** [requirements.md](./requirements.md)
-- **HOW it’s designed:** this document
-- **HOW to build it (implementation details):** [implementation.md](./implementation.md)
-- **HOW to publish/deploy/operate:** [deployment.md](./deployment.md)
+- [Overview of the Architecture](#overview-of-the-architecture)
+- [Key Components and Their Interactions](#key-components-and-their-interactions)
+- [Design Decisions and Rationale](#design-decisions-and-rationale)
+- [Technology Stack](#technology-stack)
+- [Deployment Strategy](#deployment-strategy)
+- [Scalability and Performance Considerations](#scalability-and-performance-considerations)
+- [Security Measures](#security-measures)
+- [Maintenance and Monitoring Plans](#maintenance-and-monitoring-plans)
+- [Tracker Status](#tracker-status)
 
 ---
 
