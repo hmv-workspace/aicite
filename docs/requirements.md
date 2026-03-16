@@ -105,6 +105,7 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 | FR-024 | CLI may include top-level template files not under `.github/`, `.kilocode/`, or `docs/` | Medium | ✅ Implemented (current filter passes unknown top-level paths)
 | FR-025 | Provide a way to detect if a project was initialized with AiCite (e.g., marker file, version in package.json) | Medium | 🔄 Proposed
 | FR-026 | Support selective update of agent content (e.g., `.github/`, `.kilocode/`) without overwriting user-generated docs | High | 🔄 Proposed
+| FR-027 | Support installation directly from git repository using `uv tool install` | Medium | 🔄 Proposed
 
 ---
 
@@ -159,8 +160,9 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 | Dependency | Why it matters | Status |
 |---|---|---|
 | npm registry distribution (`npx aicite@latest …`) | Primary installation UX | ✅ Exists
+| PyPI distribution (`uvx aicite …`) | Optional UX parity for Python environments | ✅ Implemented
+| Git-based installation (`uv tool install aicite --from git+https://github.com/github/spec-kit.git`) | Alternative installation method for development and edge cases | 🔄 Proposed
 | Template content quality | Determines real usefulness of generated docs/agents | 🔄 In Progress
-| Python/uvx distribution | Optional UX parity for Python environments | ✅ Implemented
 
 ---
 
