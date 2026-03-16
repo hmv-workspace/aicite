@@ -1,7 +1,7 @@
 # AiCite — Requirements
 
 > **Document Version:** 0.1 (draft)
-> **Last Updated:** 8 March 2026
+> **Last Updated:** 16 March 2026
 > **Scope Note:** This document captures (a) what is already implemented in this repo today and (b) the near-term intended direction described by the project owner. Items not yet implemented are explicitly marked.
 
 ---
@@ -19,14 +19,15 @@
 
 ### Project Summary
 
-AiCite is an open-source scaffolding CLI that bootstraps a project’s AI-assistant context so humans and AI agents can stay aligned through a shared, repo-local documentation set and agent guidance files.
+AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI agent alignment. It bootstraps shared documentation and assistant guidance in minutes, creating a version-controlled context for both humans and AI agents.
 
 ### Goals (outcomes)
 
 - **G1 — One-command setup:** a developer can initialize the framework via a single command such as `npx aicite@latest setup`.
 - **G2 — Shared source of truth:** the project gets a central, versioned documentation folder (`docs/`) for requirements/architecture/implementation/deployment.
-- **G3 — Multi-tool agent guidance:** generate vendor/tool-specific assistant configuration (e.g., GitHub Copilot; KiloCode) from templates.
+- **G3 — Multi-tool agent guidance:** generate vendor/tool-specific assistant configuration (e.g., GitHub Copilot; KiloCode) from templates (with extensibility for more tools).
 - **G4 — Low-friction adoption:** minimal prerequisites, non-interactive CLI, safe defaults (no overwrites without explicit intent).
+- **G5 — Project tracking:** Enable real-time progress tracking through documentation with status indicators for requirements, architecture, and implementation.
 
 ### Objectives (measurable)
 
@@ -46,8 +47,8 @@ AiCite is an open-source scaffolding CLI that bootstraps a project’s AI-assist
 
 | User Type | What they want | Why |
 |---|---|---|
-| Developers | Bootstrap agent guidance + docs | Faster onboarding and consistent AI usage patterns.
-| Architects/Tech leads | Maintain requirements/architecture “source of truth” | Keep AI outputs and implementation aligned.
+| Developers | Bootstrap agent guidance + docs; get project tracking and progress updates | Faster onboarding, consistent AI usage patterns, and real-time project visibility.
+| Architects/Tech leads | Maintain requirements/architecture “source of truth”; track progress and identify blockers | Keep AI outputs and implementation aligned; enable data-driven decision-making.
 | Repo maintainers | Keep templates and CLI stable | Reduce issues and breaking changes.
 
 ### Core Use Cases
@@ -57,7 +58,9 @@ AiCite is an open-source scaffolding CLI that bootstraps a project’s AI-assist
 | UC-001 | Initialize a repo | `docs/` and selected tool config folders/files are created.
 | UC-002 | Re-run setup safely | Existing files remain untouched unless `--force` is used.
 | UC-003 | Generate only Copilot guidance | Only `.github/…` plus `docs/` are generated.
-| UC-004 | Generate only docs | Only `docs/…` are generated.
+| UC-004 | Generate only KiloCode guidance | Only `.kilocode/` folder, `.kilocodemodes` file, plus `docs/` are generated.
+| UC-005 | Generate only docs | Only `docs/…` are generated.
+| UC-006 | Track project progress | AI agents analyze documentation to provide status reports and identify blockers.
 
 ---
 
@@ -163,11 +166,11 @@ AiCite is an open-source scaffolding CLI that bootstraps a project’s AI-assist
 
 | Area | Status | Notes |
 |---|---|---|
-| CLI `setup` behavior | ✅ Complete | Implemented in `npx/bin/aicite.js`.
-| Template packaging/sync | ✅ Complete | `npx/scripts/sync-templates.js` runs on `prepack`.
-| Requirements doc (this) | 🔄 In Progress | Initial draft created; confirm open questions below.
-| Architecture doc | 🔄 In Progress | Updating next.
-| Template content completeness | 🔄 In Progress | Some templates still placeholders depending on package snapshot.
+| CLI `setup` behavior | ✅ Complete | Implemented in `npx/bin/aicite.js` and `uvx/aicite/cli.py`.
+| Template packaging/sync | ✅ Complete | `npx/scripts/sync-templates.js` runs on `prepack`; `uvx/scripts/sync-templates.py` for Python.
+| Requirements doc (this) | ✅ Complete | Updated based on current implementation.
+| Architecture doc | ✅ Complete | Captures current scaffold-only architecture.
+| Template content completeness | ✅ Complete | Templates include basic documentation and AI agent guidance.
 | uvx distribution | ✅ Complete | Python CLI implemented and published to PyPI.
 
 ---
@@ -175,6 +178,4 @@ AiCite is an open-source scaffolding CLI that bootstraps a project’s AI-assist
 ## Open Questions (for the project owner)
 
 1. Should AiCite’s “source of truth” docs live under `docs/` (current behavior) or also be mirrored under `.github/` as some agent templates mention?
-2. Which vendor/tool targets are in-scope for v1 (Copilot, KiloCode, others)?
-3. Do you want the CLI to ever modify existing docs (merge/update), or strictly “generate once” unless `--force` overwrites?
-4. For KiloCode support, should the canonical output be a `.kilocode/` folder, a `.kilocodemodes` file, or both?
+2. Do you want the CLI to ever modify existing docs (merge/update), or strictly “generate once” unless `--force` overwrites?

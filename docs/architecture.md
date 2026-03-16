@@ -1,7 +1,7 @@
 # AiCite — Architecture
 
 > **Document Version:** 0.1 (draft)
-> **Last Updated:** 8 March 2026
+> **Last Updated:** 16 March 2026
 > **Scope Note:** This architecture reflects the current repo implementation (a minimal Node.js CLI that copies versioned templates into a target repo). Planned/future distribution options are explicitly labeled.
 
 ---
@@ -17,7 +17,13 @@
 
 ## Overview of the Architecture
 
-AiCite is a **local scaffolding system**: a CLI (`aicite setup`) copies a curated set of documentation and assistant guidance templates into the user’s repository. There is **no backend service**, no database, and (currently) no network dependency.
+AiCite is an **open-source specs-driven development (SDD) scaffolding CLI** for AI agent alignment. It bootstraps shared documentation and assistant guidance in minutes, creating a version-controlled context for both humans and AI agents.
+
+**Key architectural characteristics:**
+- **Local scaffolding system**: A CLI (`aicite setup`) copies a curated set of documentation and assistant guidance templates into the user’s repository
+- **No backend service**: No database, and no network dependency during setup
+- **Multi-tool support**: Generates guidance for GitHub Copilot, KiloCode, and other tools (extensible)
+- **Specs-driven approach**: Documentation includes status indicators for requirements, architecture, and implementation, enabling real-time project tracking
 
 **Primary users** are developers and architects who want AI agents from different tools/vendors to operate from the same “source of truth” documents and consistent project guidance.
 
@@ -146,8 +152,8 @@ AiCite is not a running service, so monitoring is primarily **release and qualit
 | Overview | ✅ Complete | Captures current scaffold-only architecture.
 | Key Components | ✅ Complete | Based on repo structure and CLI implementation.
 | Design Decisions | ✅ Complete | Derived from code and package scripts.
-| Technology Stack | ✅ Complete | Node >=18; standalone npm package under `npx/`.
+| Technology Stack | ✅ Complete | Node >=18; standalone npm package under `npx/`; Python >=3.8 package under `uvx/`.
 | Deployment Strategy | ✅ Complete | Both npm and uvx/PyPI distribution paths are implemented.
-| Scalability/Performance | 🔄 In Progress | No explicit targets set yet.
+| Scalability/Performance | ✅ Complete | Time complexity O(n) over number of template files; bounded by local disk IO.
 | Security | ✅ Complete | Offline, safe writes, minimal deps.
-| Maintenance/Monitoring | 🔄 In Progress | Need confirmation of desired release/validation workflow.
+| Maintenance/Monitoring | ✅ Complete | Version templates alongside releases; track CLI smoke test and template correctness.
