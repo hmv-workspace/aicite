@@ -1,6 +1,6 @@
 {
   "name": "aicite",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "Open-source CLI utility to bootstrap AI assistant project context and agent prompts.",
   "license": "MIT",
   "keywords": [

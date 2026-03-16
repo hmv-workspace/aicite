@@ -34,7 +34,7 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 | ID | Objective | Success Criteria |
 |---|---|---|
 | OBJ-001 | Provide working `setup` command | Running `aicite setup` writes expected files and prints a summary.
-| OBJ-002 | Support selective generation | User can generate only chosen targets (`--only`, `--copilot`, `--kilocode`, `--docs`).
+| OBJ-002 | Support selective generation | User can generate only chosen targets (`--only`, `--copilot`, `--kilocode`, `--cursor`, `--docs`).
 | OBJ-003 | Preserve existing user work by default | Re-running without `--force` does not overwrite existing generated files.
 | OBJ-004 | Keep templates versioned and publishable | npm package includes templates at publish time (prepack sync).
 | OBJ-005 | Provide Python/uvx distribution | Working Python CLI available via `uvx aicite setup`.
@@ -60,7 +60,10 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 | UC-003 | Generate only Copilot guidance | Only `.github/…` plus `docs/` are generated.
 | UC-004 | Generate only KiloCode guidance | Only `.kilocode/` folder, `.kilocodemodes` file, plus `docs/` are generated.
 | UC-005 | Generate only docs | Only `docs/…` are generated.
-| UC-006 | Track project progress | AI agents analyze documentation to provide status reports and identify blockers.
+| UC-006 | Generate only Cursor IDE guidance | Only `AGENTS.md` plus `docs/` are generated.
+| UC-007 | Track project progress | AI agents analyze documentation to provide status reports and identify blockers.
+| UC-008 | Detect if project uses AiCite | User can verify if project was initialized with AiCite.
+| UC-009 | Update agent content only | User can update agent guidance (`.github/`, `.kilocode/`) without overwriting their documentation.
 
 ---
 
@@ -73,8 +76,8 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 | FR-001 | Provide `aicite setup` command that generates files into the current working directory | High | ✅ Implemented
 | FR-002 | Provide `--help` output describing usage and options | High | ✅ Implemented
 | FR-003 | Provide `--force` option to overwrite existing generated files | High | ✅ Implemented
-| FR-004 | Provide selective generation via `--only copilot,kilocode,docs` | High | ✅ Implemented
-| FR-005 | Provide convenience flags `--copilot`, `--kilocode`, `--docs` | Medium | ✅ Implemented
+| FR-004 | Provide selective generation via `--only copilot,kilocode,cursor,docs` | High | ✅ Implemented
+| FR-005 | Provide convenience flags `--copilot`, `--kilocode`, `--cursor`, `--docs` | Medium | ✅ Implemented
 | FR-006 | Always generate `docs/` as part of setup | High | ✅ Implemented (docs are forced into targets)
 
 ### Generated Artifacts (templates)
@@ -83,7 +86,8 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 |---|---|---:|---|
 | FR-010 | Generate GitHub Copilot guidance under `.github/` (agents/personas) when target includes `copilot` | High | ✅ Implemented (via template filtering)
 | FR-011 | Generate KiloCode configuration under `.kilocode/` (and related config files) when target includes `kilocode` | Medium | ✅ Implemented (depends on packaged templates)
-| FR-012 | Generate documentation skeleton under `docs/` | High | ✅ Implemented (depends on templates)
+| FR-012 | Generate Cursor IDE configuration (AGENTS.md and .cursor/ folder) when target includes `cursor` | Medium | ✅ Implemented
+| FR-013 | Generate documentation skeleton under `docs/` | High | ✅ Implemented (depends on templates)
 
 ### Template Resolution and Copying
 
@@ -94,6 +98,8 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 | FR-022 | CLI must not overwrite existing files unless `--force` is set | High | ✅ Implemented
 | FR-023 | CLI prints a short summary (targets, wrote/skipped counts, done) | Low | ✅ Implemented
 | FR-024 | CLI may include top-level template files not under `.github/`, `.kilocode/`, or `docs/` | Medium | ✅ Implemented (current filter passes unknown top-level paths)
+| FR-025 | Provide a way to detect if a project was initialized with AiCite (e.g., marker file, version in package.json) | Medium | 🔄 Proposed
+| FR-026 | Support selective update of agent content (e.g., `.github/`, `.kilocode/`) without overwriting user-generated docs | High | 🔄 Proposed
 
 ---
 
@@ -172,6 +178,8 @@ AiCite is an open-source specs-driven development (SDD) scaffolding CLI for AI a
 | Architecture doc | ✅ Complete | Captures current scaffold-only architecture.
 | Template content completeness | ✅ Complete | Templates include basic documentation and AI agent guidance.
 | uvx distribution | ✅ Complete | Python CLI implemented and published to PyPI.
+| AiCite project detection (FR-025) | 🔄 Proposed | Need marker file or package.json entry to detect AiCite usage.
+| Selective agent content update (FR-026) | 🔄 Proposed | Need `--agents-only` or similar flag to update agent content without touching docs.
 
 ---
 

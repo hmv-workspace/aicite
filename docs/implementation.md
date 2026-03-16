@@ -218,6 +218,29 @@ cd npx
 npm publish
 ```
 
+### Testing Practice for Cursor IDE Support (16 March 2026)
+
+When adding new IDE support (e.g., Cursor IDE), follow this testing workflow:
+
+1. **NPX Testing:**
+   - Run `npm run pack:dry` to verify package contents
+   - This includes Cursor IDE agent files in templates
+
+2. **UVX Testing:**
+   - Build with `uv build`
+   - Publish to TestPyPI for real testing
+   - Use `--index-url https://test.pypi.org/simple/` to test
+   - Example: `uvx --index-url https://test.pypi.org/simple/ aicite@<version> setup --cursor`
+
+3. **Verification:**
+   - Test the generated files in a clean directory
+   - Ensure correct files are created for each flag
+   - Check for file leaks (e.g., `.kilocodemodes` should not appear with `--cursor`)
+
+4. **Version Management:**
+   - Use `.dev1` suffix for test versions (e.g., `0.0.7.dev1`)
+   - Revert to final version (e.g., `0.0.7`) after testing is complete
+
 ### Template Resolution Order (at runtime)
 
 1. For npm: `npx/templates/basic/` (packaged) → `templates/basic/` (repo fallback)

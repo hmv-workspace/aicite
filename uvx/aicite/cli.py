@@ -11,14 +11,14 @@ import argparse
 import shutil
 from pathlib import Path
 
-__version__ = "0.0.4"
+__version__ = "0.0.7"
 
 def print_help():
     help_text = """
 aicite - bootstrap AI assistant project context
 
 Usage:
-  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--docs]
+  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--docs]
   aicite --help
   aicite --version
 
@@ -27,9 +27,10 @@ Commands:
 
 Options:
   --force    Overwrite existing generated files
-  --only     Comma-separated targets: copilot,kilocode,docs (default: all). Note: docs are always generated.
+  --only     Comma-separated targets: copilot,kilocode,cursor,docs (default: all). Note: docs are always generated.
   --copilot  Generate only .github/ (Copilot)
   --kilocode Generate only .kilocode/ (KiloCode)
+  --cursor   Generate only .cursor/ and AGENTS.md (Cursor IDE)
   --docs     Generate only docs/
   --version  Show current version
     """.strip()
@@ -64,7 +65,7 @@ def list_files_recursive(dir_path):
     return out
 
 def parse_targets(args):
-    valid = {"copilot", "kilocode", "docs"}
+    valid = {"copilot", "kilocode", "cursor", "docs"}
 
     if args.only:
         parts = [s.strip().lower() for s in args.only.split(",") if s.strip()]
@@ -84,13 +85,15 @@ def parse_targets(args):
         explicit.add("copilot")
     if args.kilocode:
         explicit.add("kilocode")
+    if args.cursor:
+        explicit.add("cursor")
     if args.docs:
         explicit.add("docs")
     if explicit:
         explicit.add("docs")
         return explicit
 
-    return {"copilot", "kilocode", "docs"}
+    return {"copilot", "kilocode", "cursor", "docs"}
 
 def write_file_if_needed(file_path, content, force):
     if not force and file_path.exists():
@@ -105,10 +108,13 @@ def setup(cwd, force, targets):
 
     def should_include(rel_path):
         first = rel_path.split(os.sep)[0]
+        # Check for .kilocode/ directory AND .kilocodemodes file
         if first == ".github":
             return "copilot" in targets
-        if first == ".kilocode":
+        if first == ".kilocode" or first == ".kilocodemodes":
             return "kilocode" in targets
+        if first == ".cursor":
+            return "cursor" in targets
         if first == "docs":
             return "docs" in targets
         return True
@@ -143,9 +149,10 @@ def main():
 
     setup_parser = subparsers.add_parser("setup", help="Create project assistant files", add_help=False)
     setup_parser.add_argument("--force", action="store_true", help="Overwrite existing files")
-    setup_parser.add_argument("--only", type=str, help="Comma-separated targets: copilot,kilocode,docs")
+    setup_parser.add_argument("--only", type=str, help="Comma-separated targets: copilot,kilocode,cursor,docs")
     setup_parser.add_argument("--copilot", action="store_true", help="Generate only .github/ (Copilot)")
     setup_parser.add_argument("--kilocode", action="store_true", help="Generate only .kilocode/ (KiloCode)")
+    setup_parser.add_argument("--cursor", action="store_true", help="Generate only .cursor/ and AGENTS.md (Cursor IDE)")
     setup_parser.add_argument("--docs", action="store_true", help="Generate only docs/")
 
     args = parser.parse_args()

@@ -15,7 +15,7 @@ function printHelp() {
   process.stdout.write(`aicite - bootstrap AI assistant project context
 
 Usage:
-  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--docs]
+  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--docs]
   aicite --help
   aicite --version
 
@@ -24,9 +24,10 @@ Commands:
 
 Options:
   --force    Overwrite existing generated files
-  --only     Comma-separated targets: copilot,kilocode,docs (default: all). Note: docs are always generated.
+  --only     Comma-separated targets: copilot,kilocode,cursor,docs (default: all). Note: docs are always generated.
   --copilot  Generate only .github/ (Copilot)
   --kilocode Generate only .kilocode/ (KiloCode)
+  --cursor   Generate only .cursor/ and AGENTS.md (Cursor IDE)
   --docs     Generate only docs/
   --version  Show current version
 `);
@@ -103,7 +104,7 @@ function resolveTemplateDir() {
 }
 
 function parseTargets({ flags, options }) {
-  const valid = new Set(['copilot', 'kilocode', 'docs']);
+  const valid = new Set(['copilot', 'kilocode', 'cursor', 'docs']);
 
   if (options && options.has('only')) {
     const raw = String(options.get('only') || '');
@@ -124,13 +125,14 @@ function parseTargets({ flags, options }) {
   const explicit = new Set();
   if (flags.has('--copilot')) explicit.add('copilot');
   if (flags.has('--kilocode')) explicit.add('kilocode');
+  if (flags.has('--cursor')) explicit.add('cursor');
   if (flags.has('--docs')) explicit.add('docs');
   if (explicit.size > 0) {
     explicit.add('docs');
     return explicit;
   }
 
-  return new Set(['copilot', 'kilocode', 'docs']);
+  return new Set(['copilot', 'kilocode', 'cursor', 'docs']);
 }
 
 function setup({ cwd, force, targets }) {
@@ -141,6 +143,7 @@ function setup({ cwd, force, targets }) {
     const first = relPath.split(path.sep)[0];
     if (first === '.github') return targets.has('copilot');
     if (first === '.kilocode') return targets.has('kilocode');
+    if (first === '.cursor') return targets.has('cursor');
     if (first === 'docs') return targets.has('docs');
     return true;
   };

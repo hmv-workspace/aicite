@@ -1,6 +1,6 @@
 [project]
 name = "aicite"
-version = "0.0.6"
+version = "0.0.7"
 description = "Open-source CLI utility to bootstrap AI assistant project context and agent prompts."
 license = { text = "MIT" }
 authors = [{ name = "Mehul H", email = "hmv.workspace@gmail.com" }]

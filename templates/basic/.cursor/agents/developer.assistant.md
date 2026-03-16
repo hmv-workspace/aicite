@@ -50,7 +50,6 @@ Create and maintain these three documents **with developer-verified facts only**
 
 1. `docs/implementation.md` — indexed summary of what is implemented (structure, config paths, build scripts, usage).
 2. `docs/deployment.md` — indexed deployment guide (environments, steps, rollback, monitoring, verification, troubleshooting).
-3. `.github/copilot-instructions.md` — instructions for Copilot users in this repo, including how to use the above documents and any specific conventions or patterns to follow.
 
 **Do not create any other documents unless explicitly instructed by the developer.**  
 **Do not modify** `docs/requirements.md` or `docs/architecture.md` (owned by Architect-Assistant).  

@@ -22,7 +22,7 @@ AiCite is an **open-source specs-driven development (SDD) scaffolding CLI** for 
 **Key architectural characteristics:**
 - **Local scaffolding system**: A CLI (`aicite setup`) copies a curated set of documentation and assistant guidance templates into the user’s repository
 - **No backend service**: No database, and no network dependency during setup
-- **Multi-tool support**: Generates guidance for GitHub Copilot, KiloCode, and other tools (extensible)
+- **Multi-tool support**: Generates guidance for GitHub Copilot, KiloCode, Cursor IDE, and other tools (extensible)
 - **Specs-driven approach**: Documentation includes status indicators for requirements, architecture, and implementation, enabling real-time project tracking
 
 **Primary users** are developers and architects who want AI agents from different tools/vendors to operate from the same “source of truth” documents and consistent project guidance.
@@ -50,15 +50,16 @@ AiCite is an **open-source specs-driven development (SDD) scaffolding CLI** for 
 
 1. User runs `npx aicite@latest setup` (or `aicite setup` when installed).
 2. CLI parses options:
-	- `--only copilot,kilocode,docs` (always includes `docs`)
-	- or convenience flags `--copilot`, `--kilocode`, `--docs` (always includes `docs`)
+	- `--only copilot,kilocode,cursor,docs` (always includes `docs`)
+	- or convenience flags `--copilot`, `--kilocode`, `--cursor`, `--docs` (always includes `docs`)
 	- `--force` to overwrite existing files
 3. CLI resolves the template directory:
 	- prefers templates inside the npm package (`npx/templates/basic` when running from this repo/package)
 	- falls back to repo root templates (useful when templates are not bundled, or in certain dev setups)
 4. CLI enumerates template files recursively, filters by target (first path segment), and copies into the current working directory.
-	- Files under `.github/`, `.kilocode/`, and `docs/` are gated by selected targets.
-	- Any top-level template entries outside those folders are currently always included.
+	- Files under `.github/`, `.kilocode/`, `.cursor/`, and `docs/` are gated by selected targets.
+	- The `agents/` directory is gated by the `cursor` target.
+	- Any other top-level template entries are currently always included.
 5. CLI prints a summary (targets chosen, wrote/skipped counts) and exits.
 
 ---
