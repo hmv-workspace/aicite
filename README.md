@@ -1,28 +1,37 @@
 # AiCite
 
-Open-source specs-driven development (SDD) scaffolding CLI for AI agent alignment. Bootstraps shared documentation and assistant guidance in minutes.
+## The Specs-Driven AI Development Framework
+
+Open-source specs-driven development (SDD) framework for AI agent alignment. Bootstraps shared documentation and assistant guidance in minutes, creating a version-controlled context for both humans and AI agents.
+
+**Tagline:** "Align AI agents, unify development teams"
 
 ## What is AiCite?
 
-AiCite is a powerful yet simple CLI tool that helps teams get started with specs-driven development. It creates a shared context for both humans and AI agents by generating:
+AiCite is a powerful yet simple specs-driven development (SDD) framework that helps teams get started with SDD. It creates a shared context for both humans and AI agents by generating:
 
 - **Centralized documentation**: Requirements, architecture, implementation, and deployment guides in `docs/`
 - **AI agent guidance**: Configuration for tools like GitHub Copilot, KiloCode, and Cursor IDE (with extensibility for more tools)
 - **Version-controlled context**: All artifacts are local to your repository for full control
 
-## Why Use AiCite?
+## Why AiCite?
 
-### Benefits for Developers
-- **One-command setup**: Initialize your project in seconds
-- **Consistent AI interactions**: All agents work from the same source of truth
-- **Prevents scope creep**: Clear requirements from the start
-- **Easy onboarding**: New team members understand the project faster
+### For Teams Building with AI
+Stop wasting time aligning AI agents and human developers. AiCite provides a shared framework that ensures everyone works from the same page.
 
-### Benefits for Architects
-- **Architecture-first approach**: Design is documented before implementation
-- **Living specifications**: Documentation evolves with the codebase
-- **Alignment across tools**: GitHub Copilot and KiloCode share the same context
-- **Version-controlled docs**: Changes are tracked with your code
+### Key Benefits
+
+#### For Developers
+- **Instant consistency**: All AI agents (Copilot, KiloCode, Cursor) work from identical documentation
+- **Faster onboarding**: New team members understand the project structure in minutes
+- **Reduced rework**: Clear specs prevent misunderstandings before they happen
+- **Project tracking**: Real-time progress updates through documentation status indicators
+
+#### For Architects
+- **Architecture-first mindset**: Enforce design documentation before implementation begins
+- **Living specifications**: Documentation evolves with your codebase
+- **Tool agnostic alignment**: Ensure consistency across different AI platforms
+- **Version-controlled context**: All specs and guidance are tracked in your repository
 
 ## Quick Start
 
@@ -177,11 +186,25 @@ This workflow ensures that everyone is aligned from the start, reduces rework, a
 
 ## Why AiCite Stands Out
 
-- **Specs-driven alignment**: All work is based on clear, documented requirements and architecture
-- **Tool agnostic**: Works with GitHub Copilot, KiloCode, and will support more tools in the future
-- **Version-controlled context**: Documentation and AI guidance are tracked with your code
-- **Easy to adopt**: One command to get started with best practices
-- **Scalable**: Grows with your project from small apps to large systems
+AiCite solves the biggest challenges of AI-assisted development:
+
+### 1. **AI Agent Alignment**
+Ensure GitHub Copilot, KiloCode, Cursor, and future AI tools all work from the same specifications
+
+### 2. **Single Source of Truth**
+Centralized documentation (requirements → architecture → implementation → deployment) that's version-controlled
+
+### 3. **Architecture-First Development**
+Force best practices by documenting before coding, preventing costly rework later
+
+### 4. **Real-Time Project Tracking**
+Status indicators in documentation enable AI agents to provide real-time progress reports
+
+### 5. **Minimal Friction**
+One command setup (`npx aicite@latest setup`) with safe defaults that won't overwrite your existing work
+
+### 6. **Future-Proof**
+Extensible framework that will support additional AI tools and workflows as the ecosystem evolves
 
 ## Contributing
 

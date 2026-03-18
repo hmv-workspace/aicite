@@ -22,7 +22,7 @@
 
 ## Overview of the Architecture
 
-AiCite is an **open-source specs-driven development (SDD) scaffolding CLI** for AI agent alignment. It bootstraps shared documentation and assistant guidance in minutes, creating a version-controlled context for both humans and AI agents.
+AiCite is an **open-source specs-driven development (SDD) framework** for AI agent alignment. It bootstraps shared documentation and assistant guidance in minutes, creating a version-controlled context for both humans and AI agents.
 
 **Key architectural characteristics:**
 - **Local scaffolding system**: A CLI (`aicite setup`) copies a curated set of documentation and assistant guidance templates into the user’s repository

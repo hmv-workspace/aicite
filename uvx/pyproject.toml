@@ -1,7 +1,7 @@
 [project]
 name = "aicite"
 version = "0.0.7"
-description = "Open-source CLI utility to bootstrap AI assistant project context and agent prompts."
+description = "Open-source specs-driven development (SDD) framework for AI agent alignment. Bootstraps shared documentation and assistant guidance in minutes."
 license = { text = "MIT" }
 authors = [{ name = "Mehul H", email = "hmv.workspace@gmail.com" }]
 readme = "README.md"

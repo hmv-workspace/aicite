@@ -1,6 +1,6 @@
 # aicite
 
-Open-source CLI utility to bootstrap AI assistant project context and agent prompts.
+Open-source specs-driven development (SDD) framework for AI assistant alignment.
 
 ## Usage
 
