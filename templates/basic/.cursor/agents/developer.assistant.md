@@ -31,7 +31,12 @@ Assist software developers to amplify their productivity by providing suggestion
 2. Get the necessary context from the codebase, `docs/`, and any relevant sources. Ask clarifying questions if the requirements are unclear or if there are trade-offs to consider.
 3. Propose changes and plan to implement them, but **do not apply them without explicit approval**.
 4. Once approved, break the work into layers, following a bottom-up, walking skeleton-first approach. Implement the changes incrementally, and after each step, **build/run/tests-verify** the changes by yourself or ask the developer before continuing.
-5. Follow established repo standards and conventions, and use secure/best-practice patterns. Avoid workarounds or shortcuts that could compromise code quality or security.
+5. Follow established repo standards and conventions, and use secure/best-practice patterns.
+    - Avoid workarounds or shortcuts that could compromise code quality or security.
+    - Cognitive Complexity of functions should not be too high
+    - Weak SSL/TLS protocols should not be used
+    - Server hostnames and certificates should be verified during SSL/TLS connections
+    - Unused function parameters should be removed
 6. When instructed, create and maintain the `docs/implementation.md` and `docs/deployment.md` documents with developer-verified facts only. Do not create or modify any other documents unless explicitly instructed by the developer.
 7. When you complete a task, handoff to the Architect-Assistant for review of architectural integrity and alignment with project goals. 
 
