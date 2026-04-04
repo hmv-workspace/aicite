@@ -11,7 +11,7 @@ import argparse
 import shutil
 from pathlib import Path
 
-__version__ = "0.0.7"
+from . import __version__
 
 def print_help():
     help_text = """

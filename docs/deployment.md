@@ -57,7 +57,11 @@ AiCite has no long-running runtime environments.
 
 ### 1) Prepare the release
 
-1. Update `npx/package.json` `version`.
+1. Update version in `npx/package.json`:
+   ```bash
+   cd npx
+   npm version patch  # or: npm version minor / npm version major
+   ```
 2. Ensure templates are correct under `templates/basic/`.
 3. Validate the publish artifact contents:
 
@@ -101,7 +105,15 @@ Notes:
 
 ### 1) Prepare the release
 
-1. Update `uvx/pyproject.toml` `version`.
+1. Update version in `uvx/pyproject.toml`:
+   ```bash
+   # Edit uvx/pyproject.toml and update the version field
+   # Example: version = "0.0.8"
+   ```
+   
+   **Note:** The version is managed in a single place (`pyproject.toml`) and automatically read by the application via `importlib.metadata`. Python/PyPI does not have a built-in version bump command like `npm version`. You can:
+   - Manually edit the `version` field in `pyproject.toml` (recommended)
+   - Use automation tools like `bump2version` or `versioneer` if configured
 2. Ensure templates are correct under `templates/basic/`.
 3. Sync templates to uvx directory:
 
