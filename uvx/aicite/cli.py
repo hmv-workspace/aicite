@@ -13,31 +13,40 @@ from pathlib import Path
 
 from . import __version__
 
+
 def print_help():
     help_text = """
 aicite - bootstrap AI assistant project context
 
 Usage:
   aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--docs]
+  aicite update [--agents] [--force]
   aicite --help
   aicite --version
 
 Commands:
   setup     Create project assistant files in the current directory
+  update    Update existing files from templates
 
-Options:
+Setup Options:
   --force    Overwrite existing generated files
   --only     Comma-separated targets: copilot,kilocode,cursor,docs (default: all). Note: docs are always generated.
   --copilot  Generate only .github/ (Copilot)
   --kilocode Generate only .kilocode/ (KiloCode)
   --cursor   Generate only .cursor/ and AGENTS.md (Cursor IDE)
   --docs     Generate only docs/
+
+Update Options:
+  --force  Overwrite existing files
+  --agents Update only existing agent files (no new docs)
   --version  Show current version
     """.strip()
     print(help_text)
 
+
 def print_version():
     print(f"aicite {__version__}")
+
 
 def resolve_template_dir():
     package_dir = Path(__file__).parent
@@ -57,12 +66,14 @@ def resolve_template_dir():
         "If you're publishing, ensure templates are included."
     )
 
+
 def list_files_recursive(dir_path):
     out = []
     for root, dirs, files in os.walk(dir_path):
         for file in files:
             out.append(Path(root) / file)
     return out
+
 
 def parse_targets(args):
     valid = {"copilot", "kilocode", "cursor", "docs"}
@@ -71,11 +82,11 @@ def parse_targets(args):
         parts = [s.strip().lower() for s in args.only.split(",") if s.strip()]
         if not parts:
             raise RuntimeError("--only value is empty")
-        
+
         for part in parts:
             if part not in valid:
                 raise RuntimeError(f"Unknown target in --only: {part}")
-        
+
         targets = set(parts)
         targets.add("docs")
         return targets
@@ -95,14 +106,29 @@ def parse_targets(args):
 
     return {"copilot", "kilocode", "cursor", "docs"}
 
-def write_file_if_needed(file_path, content, force):
+
+def write_file_if_needed(
+    file_path, content, force, update_agents_only=False, check_user_modified=False
+):
+    # When update_agents_only is True, only update existing files, don't create new ones
+    if update_agents_only and not file_path.exists():
+        return False, "skipped_update_only"
+
+    # When check_user_modified is True, skip files that differ from template (user modified)
+    # unless --force is used
+    if check_user_modified and file_path.exists() and not force:
+        existing_content = file_path.read_text(encoding="utf-8")
+        if existing_content != content:
+            return False, "user_modified"
+
     if not force and file_path.exists():
         return False, "exists"
     file_path.parent.mkdir(parents=True, exist_ok=True)
     file_path.write_text(content, encoding="utf-8")
     return True, None
 
-def setup(cwd, force, targets):
+
+def setup(cwd, force, targets, update_agents_only=False, check_user_modified=False):
     template_dir = resolve_template_dir()
     template_files = list_files_recursive(template_dir)
 
@@ -128,7 +154,9 @@ def setup(cwd, force, targets):
             continue
         dest_file = Path(cwd) / rel
         content = src_file.read_text(encoding="utf-8")
-        success, reason = write_file_if_needed(dest_file, content, force)
+        success, reason = write_file_if_needed(
+            dest_file, content, force, update_agents_only, check_user_modified
+        )
         if success:
             wrote += 1
         else:
@@ -141,19 +169,51 @@ def setup(cwd, force, targets):
         print(f"Wrote {wrote} files")
     print("Done.")
 
+
 def main():
     parser = argparse.ArgumentParser(description="AiCite CLI", add_help=False)
-    parser.add_argument("-h", "--help", action="store_true", help="Show this help message and exit")
-    parser.add_argument("-v", "--version", action="store_true", help="Show current version")
+    parser.add_argument(
+        "-h", "--help", action="store_true", help="Show this help message and exit"
+    )
+    parser.add_argument(
+        "-v", "--version", action="store_true", help="Show current version"
+    )
     subparsers = parser.add_subparsers(title="Commands", dest="command")
 
-    setup_parser = subparsers.add_parser("setup", help="Create project assistant files", add_help=False)
-    setup_parser.add_argument("--force", action="store_true", help="Overwrite existing files")
-    setup_parser.add_argument("--only", type=str, help="Comma-separated targets: copilot,kilocode,cursor,docs")
-    setup_parser.add_argument("--copilot", action="store_true", help="Generate only .github/ (Copilot)")
-    setup_parser.add_argument("--kilocode", action="store_true", help="Generate only .kilocode/ (KiloCode)")
-    setup_parser.add_argument("--cursor", action="store_true", help="Generate only .cursor/ and AGENTS.md (Cursor IDE)")
+    setup_parser = subparsers.add_parser(
+        "setup", help="Create project assistant files", add_help=False
+    )
+    setup_parser.add_argument(
+        "--force", action="store_true", help="Overwrite existing files"
+    )
+    setup_parser.add_argument(
+        "--only", type=str, help="Comma-separated targets: copilot,kilocode,cursor,docs"
+    )
+    setup_parser.add_argument(
+        "--copilot", action="store_true", help="Generate only .github/ (Copilot)"
+    )
+    setup_parser.add_argument(
+        "--kilocode", action="store_true", help="Generate only .kilocode/ (KiloCode)"
+    )
+    setup_parser.add_argument(
+        "--cursor",
+        action="store_true",
+        help="Generate only .cursor/ and AGENTS.md (Cursor IDE)",
+    )
     setup_parser.add_argument("--docs", action="store_true", help="Generate only docs/")
+
+    # Update command parser
+    update_parser = subparsers.add_parser(
+        "update", help="Update existing files from templates", add_help=False
+    )
+    update_parser.add_argument(
+        "--force", action="store_true", help="Overwrite existing files"
+    )
+    update_parser.add_argument(
+        "--agents",
+        action="store_true",
+        help="Update existing agents only (no new docs)",
+    )
 
     args = parser.parse_args()
 
@@ -173,9 +233,22 @@ def main():
             print()
             print_help()
             sys.exit(1)
-        
+
         try:
-            setup(os.getcwd(), args.force, targets)
+            setup(os.getcwd(), args.force, targets, False)
+        except Exception as e:
+            print(str(e), file=sys.stderr)
+            sys.exit(1)
+
+    elif args.command == "update":
+        # Update command - update existing files
+        # Skip files that user has modified (don't overwrite their changes)
+        update_targets = {"copilot", "kilocode", "cursor"}
+        if not args.agents:
+            update_targets.add("docs")
+
+        try:
+            setup(os.getcwd(), args.force, update_targets, True, True)
         except Exception as e:
             print(str(e), file=sys.stderr)
             sys.exit(1)
@@ -185,6 +258,7 @@ def main():
         print()
         print_help()
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

@@ -16,19 +16,25 @@ function printHelp() {
 
 Usage:
   aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--docs]
+  aicite update [--agents] [--force]
   aicite --help
   aicite --version
 
 Commands:
   setup     Create project assistant files in the current directory
+  update    Update existing files from templates
 
-Options:
+Setup Options:
   --force    Overwrite existing generated files
   --only     Comma-separated targets: copilot,kilocode,cursor,docs (default: all). Note: docs are always generated.
   --copilot  Generate only .github/ (Copilot)
   --kilocode Generate only .kilocode/ (KiloCode)
   --cursor   Generate only .cursor/ and AGENTS.md (Cursor IDE)
   --docs     Generate only docs/
+
+Update Options:
+  --force  Overwrite existing files
+  --agents Update only existing agent files (no new docs)
   --version  Show current version
 `);
 }
@@ -71,7 +77,17 @@ function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
 
-function writeFileIfNeeded(filePath, content, { force }) {
+function writeFileIfNeeded(filePath, content, { force, updateAgentsOnly, checkUserModified }) {
+  // When updateAgentsOnly is true, only update existing files, don't create new ones
+  if (updateAgentsOnly && !fs.existsSync(filePath)) return { wrote: false, reason: 'skipped_update_only' };
+  
+  // When checkUserModified is true, skip files that differ from template (user modified)
+  // unless --force is used
+  if (checkUserModified && fs.existsSync(filePath) && !force) {
+    const existingContent = fs.readFileSync(filePath, 'utf8');
+    if (existingContent !== content) return { wrote: false, reason: 'user_modified' };
+  }
+  
   if (!force && fs.existsSync(filePath)) return { wrote: false, reason: 'exists' };
   ensureDir(path.dirname(filePath));
   fs.writeFileSync(filePath, content, 'utf8');
@@ -135,7 +151,7 @@ function parseTargets({ flags, options }) {
   return new Set(['copilot', 'kilocode', 'cursor', 'docs']);
 }
 
-function setup({ cwd, force, targets }) {
+function setup({ cwd, force, targets, updateAgentsOnly, checkUserModified }) {
   const templateDir = resolveTemplateDir();
   const templateFiles = listFilesRecursive(templateDir);
 
@@ -154,7 +170,7 @@ function setup({ cwd, force, targets }) {
     if (!shouldInclude(rel)) continue;
     const destFile = path.join(cwd, rel);
     const content = fs.readFileSync(srcFile, 'utf8');
-    results.push({ path: destFile, ...writeFileIfNeeded(destFile, content, { force }) });
+    results.push({ path: destFile, ...writeFileIfNeeded(destFile, content, { force, updateAgentsOnly, checkUserModified }) });
   }
 
   const wroteCount = results.filter((r) => r.wrote).length;
@@ -200,7 +216,19 @@ function main() {
       process.exit(1);
     }
 
-    setup({ cwd: process.cwd(), force, targets });
+    setup({ cwd: process.cwd(), force, targets, updateAgentsOnly: false });
+    return;
+  }
+
+  if (cmd === 'update') {
+    const agentsOnly = flags.has('--agents');
+    const updateTargets = new Set(['copilot', 'kilocode', 'cursor']);
+    if (!agentsOnly) {
+      updateTargets.add('docs');
+    }
+
+    // Skip files that user has modified (don't overwrite their changes)
+    setup({ cwd: process.cwd(), force, targets: updateTargets, updateAgentsOnly: true, checkUserModified: true });
     return;
   }
 
