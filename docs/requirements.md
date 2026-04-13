@@ -33,6 +33,7 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 - **G3 — Multi-tool agent guidance:** generate vendor/tool-specific assistant configuration (e.g., GitHub Copilot; KiloCode; Cursor IDE) from templates (with extensibility for more tools).
 - **G4 — Low-friction adoption:** minimal prerequisites, non-interactive CLI, safe defaults (no overwrites without explicit intent).
 - **G5 — Project tracking:** Enable real-time progress tracking through documentation with status indicators for requirements, architecture, and implementation.
+- **G6 — Discoverable onboarding:** after `setup`, users can immediately find “what to do next” and where the usage guide lives.
 
 ### Objectives (measurable)
 
@@ -43,6 +44,8 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | OBJ-003 | Preserve existing user work by default | Re-running without `--force` does not overwrite existing generated files.
 | OBJ-004 | Keep templates versioned and publishable | npm package includes templates at publish time (prepack sync); Python package includes templates at build time.
 | OBJ-005 | Provide Python/uvx distribution | Working Python CLI available via `uvx aicite setup`.
+| OBJ-006 | Make generated artifacts identifiable | After setup, a user can clearly tell (a) the repo uses AiCite and (b) which generated artifacts belong to docs vs tool-specific agent guidance.
+| OBJ-007 | Make usage guidance discoverable | `aicite --help` and `aicite setup` output explicitly point to the canonical “how to use” docs in the generated repo.
 
 ---
 
@@ -69,6 +72,7 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | UC-007 | Track project progress | AI agents analyze documentation to provide status reports and identify blockers.
 | UC-008 | Detect if project uses AiCite | User can verify if project was initialized with AiCite.
 | UC-009 | Update agent content only | User can update agent guidance (`.github/`, `.kilocode/`) without overwriting their documentation.
+| UC-010 | Identify what was generated | User can tell which files/folders were generated for `docs` vs each selected tool target (Copilot/KiloCode/Cursor), without reading code or the npm/PyPI package.
 
 ---
 
@@ -84,6 +88,8 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | FR-004 | Provide selective generation via `--only copilot,kilocode,cursor,docs` | High | ✅ Implemented
 | FR-005 | Provide convenience flags `--copilot`, `--kilocode`, `--cursor`, `--docs` | Medium | ✅ Implemented
 | FR-006 | Always generate `docs/` as part of setup | High | ✅ Implemented (docs are forced into targets)
+| FR-007 | Setup output clearly identifies generated categories | Medium | 🔄 Proposed
+| FR-008 | Provide “how to use” discoverability from CLI output (`--help` and post-`setup`) | High | 🔄 Proposed
 
 ### Generated Artifacts (templates)
 
@@ -93,6 +99,8 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | FR-011 | Generate KiloCode configuration under `.kilocode/` (and related config files) when target includes `kilocode` | Medium | ✅ Implemented (depends on packaged templates)
 | FR-012 | Generate Cursor IDE configuration (AGENTS.md and .cursor/ folder) when target includes `cursor` | Medium | ✅ Implemented
 | FR-013 | Generate documentation skeleton under `docs/` | High | ✅ Implemented (depends on templates)
+| FR-014 | Generated artifacts are clearly attributable | High | 🔄 Proposed
+| FR-015 | Generated docs include an explicit AiCite attribution line | Medium | 🔄 Proposed
 
 ### Template Resolution and Copying
 
@@ -106,6 +114,32 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | FR-025 | Provide a way to detect if a project was initialized with AiCite (e.g., marker file, version in package.json) | Medium | 🔄 Proposed
 | FR-026 | Support selective update of agent content (e.g., `.github/`, `.kilocode/`) without overwriting user-generated docs | High | 🔄 Proposed
 | FR-027 | Support installation directly from git repository using `uv tool install` | Medium | 🔄 Proposed
+
+#### Acceptance Criteria (for FR-007, FR-014, FR-025)
+
+- Given a user runs `aicite setup` with one or more targets, when setup completes, then the tool provides a human-readable summary that:
+	- distinguishes documentation output from tool-specific agent guidance output, and
+	- makes it clear what targets were selected, and
+	- makes it easy to find the generated artifacts in the repo (without requiring the user to know the tool’s internal template layout).
+- Given a user is viewing a repo after setup, when they look at the generated artifacts, then they can reliably determine:
+	- that the repo uses AiCite, and
+	- which artifacts are AiCite-generated docs vs which are agent/tool guidance.
+
+#### Acceptance Criteria (for FR-008)
+
+- Given a user runs `aicite --help`, when they read the output, then it includes a short “Next steps / Where to learn” section that:
+	- points to the canonical usage guide location in the target repo (e.g., `docs/README.md`), and
+	- includes the official AiCite project link: `https://github.com/hmv-workspace/aicite`.
+- Given a user runs `aicite setup` successfully, when the command finishes, then it prints a “Next steps” summary that:
+	- tells the user where the usage guide is in the generated repo (path), and
+	- states (at a high level) what they should do next (e.g., review requirements, confirm agent instructions), without requiring the user to infer it from the list of generated files.
+- Given a user runs `aicite setup` successfully, when the command finishes, then the “Next steps” summary includes the official AiCite project link: `https://github.com/hmv-workspace/aicite`.
+- Given a user runs `aicite setup` with selective targets (e.g., `--only docs` or `--copilot`), when the command finishes, then the “Next steps” summary still points to the same canonical usage guide and does not reference targets that were not generated.
+
+#### Acceptance Criteria (for FR-015)
+
+- Given a user runs `aicite setup`, when `docs/README.md` is generated, then it contains an explicit, human-readable attribution line that the content was generated by AiCite.
+- The attribution line text must include the exact phrase: “Generated by AiCite — Turning specs into the source of truth for AI-native development.”
 
 ---
 
@@ -187,6 +221,7 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | uvx distribution | ✅ Complete | Python CLI implemented and published to PyPI.
 | AiCite project detection (FR-025) | 🔄 Proposed | Need marker file or package.json entry to detect AiCite usage.
 | Selective agent content update (FR-026) | 🔄 Proposed | Need `--agents-only` or similar flag to update agent content without touching docs.
+| Usage guidance discoverability (FR-008) | 🔄 Proposed | Ensure CLI output clearly points users to the canonical “how to use” guide post-setup.
 
 ---
 
@@ -194,3 +229,11 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 
 1. Should AiCite’s “source of truth” docs live under `docs/` (current behavior) or also be mirrored under `.github/` as some agent templates mention?
 2. Do you want the CLI to ever modify existing docs (merge/update), or strictly “generate once” unless `--force` overwrites?
+3. For “identifiable generated artifacts” (FR-007/FR-014/FR-025), do you want identification to be:
+	- CLI-output only (clear summary on run),
+	- repo-visible only (a marker that remains in the repo),
+	- or both?
+4. How strict should attribution be: is a single repo marker sufficient, or must each generated area (docs vs each tool target) be independently recognizable?
+5. Should users be able to verify *which version* of AiCite generated the artifacts (for debugging/support), or is “uses AiCite” enough?
+6. Where is the canonical “how to use AiCite after setup” guide intended to live in the target repo (e.g., `docs/README.md`, root `README.md`, or both)?
+7. Should `aicite --help` link users to repo-local docs only, or also include a stable URL to public docs (in case the repo-local docs are edited/removed)?

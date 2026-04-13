@@ -85,6 +85,7 @@ From repo root:
 
 ```bash
 cd npx
+npm login
 npm publish
 ```
 
