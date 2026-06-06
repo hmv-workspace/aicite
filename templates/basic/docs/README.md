@@ -4,14 +4,28 @@
 
 ## Using AiCite in this repo
 
-Start here: read this `docs/README.md`, then review and fill in the documents below.
+Start here: read this `README.md`, then follow the AI-driven workflow below to build your project.
 
-**Next steps**
+## AI-Driven Workflow
 
-1. Define **WHAT** you are building in `docs/requirements.md`.
-2. Capture **HOW** it is designed in `docs/architecture.md`.
-3. Plan **HOW** to build it in `docs/implementation.md`.
-4. Document **HOW** to deploy and operate it in `docs/deployment.md`.
+To get the most out of AiCite, follow this cycle with your AI assistant:
+
+1. **Define (WHAT)**: Open [requirements.md](./requirements.md) and describe the feature. Ask your AI to help refine the requirements.
+2. **Design (HOW)**: Open [architecture.md](./architecture.md) and plan the implementation. Ask your AI to review the design for scalability and security.
+3. **Plan (HOW)**: Open [implementation.md](./implementation.md) and define the technical details (APIs, schema, code structure). Then, tell your AI: *"Implement this feature based on the requirements, architecture, and implementation plan defined in the docs folder."*
+4. **Track**: Update the status indicators (✅, 🔄, ⚠️) in the documents as you progress. Your AI can then generate status reports for the team.
+
+This ensures your AI agent stays aligned with the project's source of truth.
+
+## Tool Alignment
+
+AiCite doesn't just provide documentation; it configures your AI tools to actually use it. Depending on the setup options used, you will find configuration files that align your agents:
+
+- **GitHub Copilot**: Guidance and personas in `.github/`
+- **KiloCode**: Custom modes and configuration in `.kilocode/` and `.kilocodemodes`
+- **Cursor IDE**: Agent configurations in `.cursor/` and `AGENTS.md`
+
+These configurations instruct the AI agents to prioritize the `docs/` folder when answering questions or generating code, ensuring consistency across different tools.
 
 ---
 
@@ -25,16 +39,6 @@ This folder contains the core project documents. Each document serves a specific
 | [architecture.md](./architecture.md) | **HOW** it's designed - Design decisions, tech stack, patterns | Architects, Senior Developers, Tech Leads, DevOps |
 | [implementation.md](./implementation.md) | **HOW** to build it - APIs, database schema, code structure | Developers, QA Engineers, AI Agents |
 | [deployment.md](./deployment.md) | **HOW** to deploy & operate - Procedures, monitoring, security configs | DevOps Engineers, Release Managers, Operations |
-
-## Quick Navigation
-
-**New to the project?** Start with [requirements.md](./requirements.md)
-
-**Need to understand the design?** See [architecture.md](./architecture.md)
-
-**Ready to implement?** Check [implementation.md](./implementation.md)
-
-**Deploying or operating?** Refer to [deployment.md](./deployment.md)
 
 ---
 

@@ -83,7 +83,6 @@ npx aicite@latest setup --force
 - `--force`: Overwrite existing generated files
 - `--only copilot,kilocode,cursor,docs`: Generate only selected targets (docs are always included)
 - `--cursor` / `--copilot` / `--kilocode` / `--docs`: Convenience flags for selective generation
-- `--cursor` / `--copilot` / `--kilocode` / `--docs`: Convenience flags for selective generation
 
 ## What Gets Generated?
 
@@ -94,6 +93,41 @@ npx aicite@latest setup --force
 | `kilocode` | KiloCode configuration including `.kilocodemodes` file and `.kilocode/` folder |
 | `cursor` | Cursor IDE agent configuration under `.cursor/` |
 | (future) | Support for additional AI tools and agents |
+
+### Visualizing the Result
+
+After running `npx aicite@latest setup`, your VS Code explorer will look like this:
+
+```text
+.
+├── .github/               <-- Copilot Personas & Guidance
+│   └── copilot-instructions.md
+├── .cursor/               <-- Cursor IDE Configuration
+│   └── ...
+├── .kilocode/             <-- KiloCode Configuration
+│   └── ...
+├── docs/                  <-- The Source of Truth (SDD)
+│   ├── requirements.md
+│   ├── architecture.md
+│   ├── implementation.md
+│   └── deployment.md
+└── ... (your project files)
+```
+
+#### AI Agent Alignment in Action
+
+![GitHub Copilot Alignment](docs/assets/Copilot.png)
+*GitHub Copilot using AiCite guidance*
+
+![KiloCode Alignment](docs/assets/Kilocode.png)
+*KiloCode using AiCite guidance*
+
+**How to use it in VS Code:**
+1. **Open `docs/requirements.md`**: Define your goals and acceptance criteria.
+2. **Open `docs/architecture.md`**: Design the solution before coding.
+3. **Open `docs/implementation.md`**: Plan the technical details (APIs, schema, code structure).
+4. **Chat with your AI**: Your AI agents (Copilot, Cursor, etc.) will now automatically reference these files to provide aligned, spec-driven guidance.
+
 
 ## Specs-Driven Development
 
@@ -152,7 +186,7 @@ Let's brainstorm solutions for the performance issues mentioned in the architect
 Use these prompts to work with AI agents on development and project tracking tasks:
 
 ```
-I need to implement the user authentication feature. Can you help me understand the requirements and architecture, then guide me through the implementation?
+I need to implement the user authentication feature. Can you help me understand the requirements, architecture, and implementation plan in the docs folder, then guide me through the code?
 ```
 
 ```

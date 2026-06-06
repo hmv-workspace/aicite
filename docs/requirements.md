@@ -33,7 +33,7 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 - **G3 — Multi-tool agent guidance:** generate vendor/tool-specific assistant configuration (e.g., GitHub Copilot; KiloCode; Cursor IDE) from templates (with extensibility for more tools).
 - **G4 — Low-friction adoption:** minimal prerequisites, non-interactive CLI, safe defaults (no overwrites without explicit intent).
 - **G5 — Project tracking:** Enable real-time progress tracking through documentation with status indicators for requirements, architecture, and implementation.
-- **G6 — Discoverable onboarding:** after `setup`, users can immediately find “what to do next” and where the usage guide lives.
+- **G6 — Discoverable onboarding:** after `setup`, users can immediately find “what to do next” via clear visual guides and usage documentation.
 
 ### Objectives (measurable)
 
