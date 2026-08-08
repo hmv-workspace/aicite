@@ -12,7 +12,7 @@ const packageJson = require('../package.json');
 const VERSION = packageJson.version;
 
 function printHelp() {
-  process.stdout.write(`aicite - bootstrap AI assistant project context
+  process.stdout.write(`aicite - specs-driven development (SDD) framework for AI agent alignment
 
 Usage:
   aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--claude] [--docs]

@@ -16,7 +16,7 @@ from . import __version__
 
 def print_help():
     help_text = """
-aicite - bootstrap AI assistant project context
+aicite - specs-driven development (SDD) framework for AI agent alignment
 
 Usage:
   aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--claude] [--docs]
