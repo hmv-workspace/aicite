@@ -2,6 +2,7 @@
 
 > **Template Version:** 1.0  
 > **Created:** February 2026  
+> **Owner:** Product (finalize edits in this role; others may draft and flag for handoff — see [AGENTS.md](../AGENTS.md))  
 > **Scope:** This template defines the structure for capturing WHAT a project needs to build. It serves as a single source of truth for requirements, including functional specifications, user stories, non-functional targets (performance, security, scalability), constraints, and assumptions. Replace all placeholders (in brackets) with project-specific details.
 
 ---
@@ -29,7 +30,8 @@
 > This document defines **WHAT** needs to be built and the **targets/constraints** for Quality Attributes. It is the single source of truth for functional requirements, user stories, and non-functional targets (performance, scalability, security requirements, availability goals).
 >
 > **For the implementation approach and design decisions, see [architecture.md](./architecture.md).**  
-> **For how to implement these requirements, see [implementation.md](./implementation.md).**  
+> **For how to implement these requirements, see [development.md](./development.md).**  
+> **For test strategy and test cases, see [testplan.md](./testplan.md).**  
 > **For deployment and operational procedures, see [deployment.md](./deployment.md).**
 
 **Intended Audience:** Product Managers, Business Analysts, Architects, Developers, QA Engineers, and AI Agents
@@ -147,7 +149,7 @@
 
 ### Scalability Requirements
 
-> **Note:** For the architectural **design approach** and implementation strategies, see [architecture.md - Scalability and Performance Considerations](./architecture.md#scalability-and-performance-considerations) and [implementation.md](./implementation.md).
+> **Note:** For the architectural **design approach** and implementation strategies, see [architecture.md - Scalability and Performance Considerations](./architecture.md#scalability-and-performance-considerations) and [development.md](./development.md).
 
 | Requirement | Description | Target |
 |-------------|-------------|--------|

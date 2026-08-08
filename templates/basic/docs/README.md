@@ -12,8 +12,9 @@ To get the most out of AiCite, follow this cycle with your AI assistant:
 
 1. **Define (WHAT)**: Open [requirements.md](./requirements.md) and describe the feature. Ask your AI to help refine the requirements.
 2. **Design (HOW)**: Open [architecture.md](./architecture.md) and plan the implementation. Ask your AI to review the design for scalability and security.
-3. **Plan (HOW)**: Open [implementation.md](./implementation.md) and define the technical details (APIs, schema, code structure). Then, tell your AI: *"Implement this feature based on the requirements, architecture, and implementation plan defined in the docs folder."*
-4. **Track**: Update the status indicators (✅, 🔄, ⚠️) in the documents as you progress. Your AI can then generate status reports for the team.
+3. **Plan (HOW)**: Open [development.md](./development.md) and define the technical details (APIs, schema, code structure). Then, tell your AI: *"Implement this feature based on the requirements, architecture, and development plan defined in the docs folder."*
+4. **Verify (WHAT to check)**: Open [testplan.md](./testplan.md) and define the test cases (guardrail tests get a `TC-xxx` ID). Ask your AI to run or write tests against them.
+5. **Track**: Update the status indicators (✅, 🔄, ⚠️) in the documents as you progress. Your AI can then generate status reports for the team.
 
 This ensures your AI agent stays aligned with the project's source of truth.
 
@@ -21,11 +22,12 @@ This ensures your AI agent stays aligned with the project's source of truth.
 
 AiCite doesn't just provide documentation; it configures your AI tools to actually use it. Depending on the setup options used, you will find configuration files that align your agents:
 
-- **GitHub Copilot**: Guidance and personas in `.github/`
-- **KiloCode**: Custom modes and configuration in `.kilocode/` and `.kilocodemodes`
-- **Cursor IDE**: Agent configurations in `.cursor/` and `AGENTS.md`
+- **GitHub Copilot**: Agent guidance in `.github/`
+- **KiloCode**: Custom mode and configuration in `.kilocode/` and `.kilocodemodes`
+- **Cursor IDE**: Agent configuration in `.cursor/`
+- **Claude Code**: `CLAUDE.md`
 
-These configurations instruct the AI agents to prioritize the `docs/` folder when answering questions or generating code, ensuring consistency across different tools.
+These files instruct the AI agents to prioritize the `docs/` folder when answering questions or generating code, ensuring consistency across different tools.
 
 ---
 
@@ -37,7 +39,8 @@ This folder contains the core project documents. Each document serves a specific
 |----------|---------|----------|
 | [requirements.md](./requirements.md) | **WHAT** to build - Features, requirements, targets | Product Managers, Business Analysts, Developers, QA, AI Agents |
 | [architecture.md](./architecture.md) | **HOW** it's designed - Design decisions, tech stack, patterns | Architects, Senior Developers, Tech Leads, DevOps |
-| [implementation.md](./implementation.md) | **HOW** to build it - APIs, database schema, code structure | Developers, QA Engineers, AI Agents |
+| [development.md](./development.md) | **HOW** to build it - APIs, database schema, code structure | Developers, QA Engineers, AI Agents |
+| [testplan.md](./testplan.md) | **WHAT** to verify - Test strategy, guardrail test cases (`TC-xxx`) | QA Engineers, Developers, AI Agents |
 | [deployment.md](./deployment.md) | **HOW** to deploy & operate - Procedures, monitoring, security configs | DevOps Engineers, Release Managers, Operations |
 
 ---

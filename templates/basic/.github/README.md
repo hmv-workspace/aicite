@@ -1,3 +1,3 @@
 # GitHub Copilot
 
-This folder contains guidance and agent personas for GitHub Copilot and related tooling.
+This folder contains agent guidance for GitHub Copilot and related tooling.

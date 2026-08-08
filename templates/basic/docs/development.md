@@ -1,22 +1,23 @@
-# Implementation Plan Template
+# Development Plan Template
 
-> **Template Version:** 1.0  
-> **Created:** February 2026  
-> **Scope:** This template defines the structure for documenting HOW to build a solution. It serves as a single source of truth for implementation approach, task breakdown, technical specifications, code structure, API documentation, database design, testing strategy, and development debugging guidelines. Replace all placeholders (in brackets) with project-specific details.
+> **Template Version:** 1.0
+> **Created:** February 2026
+> **Owner:** Engineer (finalize edits in this role; others may draft and flag for handoff — see [AGENTS.md](../AGENTS.md))
+> **Scope:** This template defines the structure for documenting HOW to build a solution. It serves as a single source of truth for the build plan, task breakdown, technical specifications, code structure, API contract, database design, and key decisions/learnings captured during development. Test strategy and test cases live in [testplan.md](./testplan.md), not here. Replace all placeholders (in brackets) with project-specific details.
 
 ---
 
 ## Table of Contents
 
 1. [Document Purpose](#document-purpose)
-2. [Implementation Approach](#implementation-approach)
+2. [Development Approach](#development-approach)
 3. [Phases and Work Packages](#phases-and-work-packages)
 4. [Task Breakdown](#task-breakdown)
 5. [Technical Implementation Details](#technical-implementation-details)
 6. [Code Structure and Organization](#code-structure-and-organization)
-7. [API Documentation](#api-documentation)
-8. [Database Design](#database-design)
-9. [Testing Strategy](#testing-strategy)
+7. [API Contract](#api-contract)
+8. [Data Storage and Persistence](#data-storage-and-persistence)
+9. [Key Decisions and Learnings](#key-decisions-and-learnings)
 10. [Code Review and Quality Gates](#code-review-and-quality-gates)
 11. [Development Debugging and Troubleshooting](#development-debugging-and-troubleshooting)
 12. [Risk Mitigation](#risk-mitigation)
@@ -28,26 +29,26 @@
 ## Document Purpose
 
 > This document defines **HOW to build** the solution and contains detailed technical specifications. It is the single source of truth for:
-> - Implementation approach and methodology
+> - Build plan, methodology, and task breakdown
 > - Code structure, organization, and module breakdown
-> - Detailed API specifications
+> - API contract and data contracts between components
 > - Database schema design
-> - Unit, integration, and E2E testing strategy
 > - Code quality gates and review processes
-> - Implementation-specific risk mitigation
-> - Internal and external dependency management
+> - Key decisions made and lessons learned during development
+> - Implementation-specific risk mitigation and dependency management
 >
-> **For WHAT needs to be built (requirements and targets), see [requirements.md](./requirements.md).**  
-> **For architecture and design decisions, see [architecture.md](./architecture.md).**  
+> **For WHAT needs to be built (requirements and targets), see [requirements.md](./requirements.md).**
+> **For architecture and design decisions, see [architecture.md](./architecture.md).**
+> **For test strategy and test cases, see [testplan.md](./testplan.md).**
 > **For deployment procedures and operational details, see [deployment.md](./deployment.md).**
 
 **Intended Audience:** Developers, Tech Leads, QA Engineers, DevOps Engineers, and AI Agents
 
 ---
 
-## Implementation Approach
+## Development Approach
 
-> Describe the overall approach to implementing the solution.
+> Describe the overall approach to building the solution.
 
 ### Methodology
 
@@ -67,7 +68,7 @@
 
 ## Phases and Work Packages
 
-> Define the implementation phases and associated work packages.
+> Define the development phases and associated work packages.
 
 ### Phase Overview
 
@@ -79,7 +80,7 @@
 
 ### Phase 1: [Phase Name]
 
-**Description:**  
+**Description:**
 [Phase description]
 
 **Work Packages:**
@@ -106,18 +107,18 @@
 
 #### TASK-001: [Task Name]
 
-**Description:**  
+**Description:**
 [Detailed description]
 
-**Dependencies:**  
+**Dependencies:**
 - [Dependency 1]
 - [Dependency 2]
 
-**Acceptance Criteria:**  
+**Acceptance Criteria:**
 - [AC 1]
 - [AC 2]
 
-**Implementation Notes:**  
+**Implementation Notes:**
 [Technical notes if any]
 
 ---
@@ -151,7 +152,7 @@
 
 ---
 
-## Solution Structure and Organization
+## Code Structure and Organization
 
 > Define how your solution is organized and structured. Describe the main components, modules, or layers and how they're arranged.
 > Explain the architectural breakdown appropriate to your solution type.
@@ -178,22 +179,17 @@
 
 ---
 
-## Interfaces and Integration Points
+## API Contract
 
-> **Interface specifications are maintained in relevant documentation or implementation sources.** This section references where to find them.
-> 
-> Define all contracts, protocols, formats, or APIs that components use to interact with each other or with external systems.
-> Specify how different parts of your solution communicate and integrate.
+> Define all contracts, protocols, formats, or APIs that components use to interact with each other or with external systems. This is the source of truth for request/response shapes — keep it current as the API evolves.
 
-### Interface Documentation Sources
+### Endpoints / Interfaces
 
-| Type | Location | Purpose |
-|------|----------|----------|
-| [Interface/Contract specifications] | [Documentation location] | Complete specifications and contracts |
-| [Integration/Design guidelines] | [Documentation location] | Design principles and integration patterns |
-| [Implementation details] | [Source code location] | Low-level implementation specifics |
+| Endpoint / Interface | Method / Type | Request | Response | Auth | Notes |
+|-----------------------|----------------|---------|----------|------|-------|
+| [e.g., /api/resource] | [GET/POST/RPC/event] | [Schema/shape] | [Schema/shape] | [None/Token/etc.] | [Notes] |
 
-### Interface Design Principles
+### Contract Design Principles
 
 - [Principle 1]
 - [Principle 2]
@@ -207,18 +203,14 @@ For detailed information on how components interact and work together, refer to 
 
 ## Data Storage and Persistence
 
-> **Data and storage specifications are maintained in relevant documentation sources.** This section references where to find them.
-> 
 > Define how your solution stores, persists, manages, and accesses data of any kind.
 > This includes databases, files, caches, state management, or any persistence mechanism.
 
-### Data Storage Documentation Sources
+### Schema / Data Model
 
-| Type | Location | Purpose |
-|------|----------|----------|
-| [Data models/schema/structure] | [Schema files or storage configuration] | Current data structure and specifications |
-| [Data design documentation] | [docs/data-model or equivalent] | Relationships and data organization |
-| [Storage configuration] | [Configuration files or implementation] | Storage setup and access details |
+| Entity | Fields | Relationships | Notes |
+|--------|--------|----------------|-------|
+| [Entity] | [Field list or schema link] | [Relationships] | [Notes] |
 
 ### Data Design Principles
 
@@ -237,25 +229,21 @@ For detailed information on how components interact and work together, refer to 
 
 ---
 
-## Testing Strategy
+## Key Decisions and Learnings
 
-> Define the approach for unit, integration, and E2E testing during development.
->
-> **Note:** Post-deployment smoke tests and functional verification are in [deployment.md - Verification and Testing](./deployment.md#verification-and-testing).
+> Capture decisions made during development and what was learned — this is what keeps the doc a living record instead of a one-time plan. Only add entries verified by the developer; do not speculate.
 
-### Test Types
+### Decisions
 
-| Type | Scope | Tools | Coverage Target |
-|------|-------|-------|------------------|
-| Unit | [Scope] | [Tools] | [Target] |
-| Integration | [Scope] | [Tools] | [Target] |
-| E2E | [Scope] | [Tools] | [Target] |
+| Date | Decision | Context | Alternatives Considered | Rationale |
+|------|----------|---------|--------------------------|-----------|
+| [Date] | [Decision] | [Why it came up] | [Alternatives] | [Why this one] |
 
-### Test Cases (Priority)
+### Learnings
 
-| Test ID | Test Case | Type | Priority | Status |
-|---------|-----------|------|----------|--------|
-| TC-001 | [Description] | [Unit/Integration/E2E] | [High/Med/Low] | 🔄 Pending |
+| Date | Learning | Context | Impact |
+|------|----------|---------|--------|
+| [Date] | [What was learned] | [Where it came from] | [What changed as a result] |
 
 ---
 
@@ -275,7 +263,7 @@ For detailed information on how components interact and work together, refer to 
 ### Review Checklist
 
 - [ ] Code follows style guidelines
-- [ ] Unit tests added/updated
+- [ ] Tests added/updated (see [testplan.md](./testplan.md))
 - [ ] Documentation updated
 - [ ] No security vulnerabilities
 - [ ] Performance considerations addressed
@@ -347,18 +335,18 @@ For detailed information on how components interact and work together, refer to 
 
 ## Tracker Status
 
-> Track the completion status of each implementation section.
+> Track the completion status of each development section.
 
 | Section | Status | Notes |
 |---------|--------|-------|
-| Implementation Approach | 🔄 Pending | [Any notes] |
+| Development Approach | 🔄 Pending | [Any notes] |
 | Phases and Work Packages | 🔄 Pending | [Any notes] |
 | Task Breakdown | 🔄 Pending | [Any notes] |
 | Technical Implementation | 🔄 Pending | [Any notes] |
 | Code Structure | 🔄 Pending | [Any notes] |
-| API Documentation | 🔄 Pending | [Any notes] |
-| Database Design | 🔄 Pending | [Any notes] |
-| Testing Strategy | 🔄 Pending | [Any notes] |
+| API Contract | 🔄 Pending | [Any notes] |
+| Data Storage | 🔄 Pending | [Any notes] |
+| Key Decisions and Learnings | 🔄 Pending | [Any notes] |
 | Quality Gates | 🔄 Pending | [Any notes] |
 | Development Debugging | 🔄 Pending | [Any notes] |
 | Risk Mitigation | 🔄 Pending | [Any notes] |

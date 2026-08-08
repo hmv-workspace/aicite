@@ -2,6 +2,7 @@
 
 > **Template Version:** 1.0  
 > **Created:** February 2026  
+> **Owner:** DevOps (finalize edits in this role; others may draft and flag for handoff — see [AGENTS.md](../AGENTS.md))  
 > **Scope:** This template defines the structure for documenting HOW to deploy, operate, and maintain a solution in all environments. It serves as a single source of truth for environment configurations, deployment procedures, rollback and disaster recovery strategies, post-deployment verification, CI/CD pipeline configuration, security implementation, and monitoring setup. Replace all placeholders (in brackets) with project-specific details.
 
 ---
@@ -40,7 +41,8 @@
 >
 > **For WHAT needs to be built (requirements and targets), see [requirements.md](./requirements.md).**  
 > **For architecture and design approach, see [architecture.md](./architecture.md).**  
-> **For how to build it (development and code), see [implementation.md](./implementation.md).**
+> **For how to build it (development and code), see [development.md](./development.md).**
+> **For test strategy and test cases, see [testplan.md](./testplan.md).**
 
 **Intended Audience:** DevOps Engineers, Release Managers, System Administrators, Operations Teams, and AI Agents
 
@@ -229,7 +231,7 @@
 
 > Define post-deployment verification steps. This covers deployment-time verification, not development testing.
 >
-> **Note:** Development testing strategy (unit, integration, E2E) is in [implementation.md - Testing Strategy](./implementation.md#testing-strategy).
+> **Note:** Development testing strategy (unit, integration, E2E) and guardrail test cases are in [testplan.md](./testplan.md).
 > **Functional requirements being verified are in [requirements.md](./requirements.md).**
 
 ### Smoke Tests
@@ -257,7 +259,7 @@
 
 > Document the continuous integration and deployment pipeline. This section focuses on final stage deployment configuration.
 >
-> **Note:** Build and testing pipeline stages are configured based on [implementation.md](./implementation.md) and feed into the deployment procedures detailed below.
+> **Note:** Build and testing pipeline stages are configured based on [development.md](./development.md) and [testplan.md](./testplan.md), and feed into the deployment procedures detailed below.
 
 ### Pipeline Stages
 
@@ -366,7 +368,7 @@ stages:
 
 > Guide for operators and developers on how to debug and troubleshoot issues in deployed environments.
 >
-> **Note:** Development debugging during development phase is in [implementation.md - Development Debugging and Troubleshooting](./implementation.md#development-debugging-and-troubleshooting).
+> **Note:** Development debugging during development phase is in [development.md - Development Debugging and Troubleshooting](./development.md#development-debugging-and-troubleshooting).
 
 ### Accessing Logs
 
@@ -435,7 +437,7 @@ stages:
 
 > Identify risks specific to deployment operations and mitigation strategies.
 >
-> **Note:** Implementation-phase risks are documented in [implementation.md - Risk Mitigation](./implementation.md#risk-mitigation).
+> **Note:** Implementation-phase risks are documented in [development.md - Risk Mitigation](./development.md#risk-mitigation).
 
 | Risk | Likelihood | Impact | Mitigation Strategy | Status |
 |------|------------|--------|---------------------|--------|
@@ -448,7 +450,7 @@ stages:
 
 > Define activities after deployment.
 >
-> **Note:** Development and pre-deployment testing are in [implementation.md - Testing Strategy](./implementation.md#testing-strategy).
+> **Note:** Development and pre-deployment testing are in [testplan.md](./testplan.md).
 
 ### Immediate Post-Deployment
 

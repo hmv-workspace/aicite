@@ -2,6 +2,7 @@
 
 > **Template Version:** 1.0  
 > **Created:** February 2026  
+> **Owner:** Architect (finalize edits in this role; others may draft and flag for handoff — see [AGENTS.md](../AGENTS.md))  
 > **Scope:** This template defines the structure for documenting HOW a system is designed and architected. It serves as a single source of truth for architectural overview, components and interactions, design decisions, technology stack, scalability and security approaches, deployment strategy, and maintenance plans. Replace all placeholders (in brackets) with project-specific details.
 
 ---
@@ -31,7 +32,8 @@
 > - High-level deployment strategy and monitoring approach
 >
 > **For WHAT needs to be built (requirements and targets), see [requirements.md](./requirements.md).**  
-> **For HOW to implement it (detailed APIs, database schema, code structure), see [implementation.md](./implementation.md).**  
+> **For HOW to implement it (detailed APIs, database schema, code structure), see [development.md](./development.md).**  
+> **For test strategy and test cases, see [testplan.md](./testplan.md).**  
 > **For deployment procedures and operational details, see [deployment.md](./deployment.md).**
 
 **Intended Audience:** Solution Architects, Senior Developers, Tech Leads, DevOps Engineers, and AI Agents
@@ -62,7 +64,7 @@
 
 ### Component Interactions
 
-> **Detailed API Specifications and data contracts between components are documented in [implementation.md - API Specifications](./implementation.md#api-specifications).**
+> **Detailed API contract and data contracts between components are documented in [development.md - API Contract](./development.md#api-contract).**
 
 **[Description of component interactions and data flows]**
 
@@ -84,7 +86,7 @@
 
 > **This is the single source of truth for all technology decisions.** All other documents reference this section when discussing specific technologies, frameworks, or tools.
 >
-> **Detailed implementation guidance for each technology is found in [implementation.md - Technical Implementation Details](./implementation.md#technical-implementation-details).**
+> **Detailed implementation guidance for each technology is found in [development.md - Technical Implementation Details](./development.md#technical-implementation-details).**
 
 | Category | Technology | Version | Purpose |
 |----------|------------|---------|---------|
@@ -117,7 +119,7 @@
 
 > This section describes the **architectural approach** to achieve scalability and performance goals.
 > - **Performance targets are defined in [requirements.md - Performance Requirements](./requirements.md#performance-requirements)**
-> - **Implementation strategies are detailed in [implementation.md](./implementation.md)**
+> - **Implementation strategies are detailed in [development.md](./development.md)**
 > - **Monitoring and metrics implementation is in [deployment.md - Monitoring and Observability](./deployment.md#monitoring-and-observability)**
 
 ### Scalability
