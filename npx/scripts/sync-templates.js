@@ -8,6 +8,7 @@ function ensureDir(dirPath) {
 }
 
 function copyDir(srcDir, destDir) {
+  fs.rmSync(destDir, { recursive: true, force: true });
   ensureDir(destDir);
   fs.cpSync(srcDir, destDir, {
     recursive: true,

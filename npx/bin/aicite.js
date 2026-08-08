@@ -15,7 +15,7 @@ function printHelp() {
   process.stdout.write(`aicite - bootstrap AI assistant project context
 
 Usage:
-  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--docs]
+  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--claude] [--docs]
   aicite update [--agents] [--force]
   aicite --help
   aicite --version
@@ -26,10 +26,11 @@ Commands:
 
 Setup Options:
   --force    Overwrite existing generated files
-  --only     Comma-separated targets: copilot,kilocode,cursor,docs (default: all). Note: docs are always generated.
+  --only     Comma-separated targets: copilot,kilocode,cursor,claude,docs (default: all). Note: docs are always generated.
   --copilot  Generate only .github/ (Copilot)
   --kilocode Generate only .kilocode/ (KiloCode)
-  --cursor   Generate only .cursor/ and AGENTS.md (Cursor IDE)
+  --cursor   Generate only .cursor/ (Cursor IDE)
+  --claude   Generate only CLAUDE.md (Claude Code)
   --docs     Generate only docs/
 
 Update Options:
@@ -120,7 +121,7 @@ function resolveTemplateDir() {
 }
 
 function parseTargets({ flags, options }) {
-  const valid = new Set(['copilot', 'kilocode', 'cursor', 'docs']);
+  const valid = new Set(['copilot', 'kilocode', 'cursor', 'claude', 'docs']);
 
   if (options && options.has('only')) {
     const raw = String(options.get('only') || '');
@@ -142,13 +143,14 @@ function parseTargets({ flags, options }) {
   if (flags.has('--copilot')) explicit.add('copilot');
   if (flags.has('--kilocode')) explicit.add('kilocode');
   if (flags.has('--cursor')) explicit.add('cursor');
+  if (flags.has('--claude')) explicit.add('claude');
   if (flags.has('--docs')) explicit.add('docs');
   if (explicit.size > 0) {
     explicit.add('docs');
     return explicit;
   }
 
-  return new Set(['copilot', 'kilocode', 'cursor', 'docs']);
+  return new Set(['copilot', 'kilocode', 'cursor', 'claude', 'docs']);
 }
 
 function setup({ cwd, force, targets, updateAgentsOnly, checkUserModified }) {
@@ -160,6 +162,8 @@ function setup({ cwd, force, targets, updateAgentsOnly, checkUserModified }) {
     if (first === '.github') return targets.has('copilot');
     if (first === '.kilocode' || first === '.kilocodemodes') return targets.has('kilocode');
     if (first === '.cursor') return targets.has('cursor');
+    if (first === 'CLAUDE.md') return targets.has('claude');
+    if (first === 'AGENTS.md') return targets.has('docs');
     if (first === 'docs') return targets.has('docs');
     return true;
   };
@@ -222,7 +226,7 @@ function main() {
 
   if (cmd === 'update') {
     const agentsOnly = flags.has('--agents');
-    const updateTargets = new Set(['copilot', 'kilocode', 'cursor']);
+    const updateTargets = new Set(['copilot', 'kilocode', 'cursor', 'claude']);
     if (!agentsOnly) {
       updateTargets.add('docs');
     }
