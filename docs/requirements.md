@@ -1,7 +1,7 @@
 # AiCite — Requirements
 
-> **Document Version:** 1.0
-> **Last Updated:** 16 March 2026
+> **Document Version:** 1.1
+> **Last Updated:** 07 August 2026
 > **Scope:** This document defines WHAT AiCite is and what it should do. It captures the current implementation status and near-term roadmap. It includes project goals, user requirements, functional and non-functional specifications, constraints, and assumptions. Items not yet implemented are explicitly marked.
 
 ---
@@ -30,7 +30,7 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 
 - **G1 — One-command setup:** a developer can initialize the framework via a single command such as `npx aicite@latest setup` or `uvx aicite setup`.
 - **G2 — Shared source of truth:** the project gets a central, versioned documentation folder (`docs/`) for requirements/architecture/implementation/deployment.
-- **G3 — Multi-tool agent guidance:** generate vendor/tool-specific assistant configuration (e.g., GitHub Copilot; KiloCode; Cursor IDE) from templates (with extensibility for more tools).
+- **G3 — Multi-tool agent guidance:** generate vendor/tool-specific assistant configuration (e.g., GitHub Copilot; KiloCode; Cursor IDE; Claude Code) from templates (with extensibility for more tools).
 - **G4 — Low-friction adoption:** minimal prerequisites, non-interactive CLI, safe defaults (no overwrites without explicit intent).
 - **G5 — Project tracking:** Enable real-time progress tracking through documentation with status indicators for requirements, architecture, and implementation.
 - **G6 — Discoverable onboarding:** after `setup`, users can immediately find “what to do next” via clear visual guides and usage documentation.
@@ -40,7 +40,7 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | ID | Objective | Success Criteria |
 |---|---|---|
 | OBJ-001 | Provide working `setup` command | Running `aicite setup` writes expected files and prints a summary.
-| OBJ-002 | Support selective generation | User can generate only chosen targets (`--only`, `--copilot`, `--kilocode`, `--cursor`, `--docs`).
+| OBJ-002 | Support selective generation | User can generate only chosen targets (`--only`, `--copilot`, `--kilocode`, `--cursor`, `--claude`, `--docs`).
 | OBJ-003 | Preserve existing user work by default | Re-running without `--force` does not overwrite existing generated files.
 | OBJ-004 | Keep templates versioned and publishable | npm package includes templates at publish time (prepack sync); Python package includes templates at build time.
 | OBJ-005 | Provide Python/uvx distribution | Working Python CLI available via `uvx aicite setup`.
@@ -68,11 +68,12 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | UC-003 | Generate only Copilot guidance | Only `.github/…` plus `docs/` are generated.
 | UC-004 | Generate only KiloCode guidance | Only `.kilocode/` folder, `.kilocodemodes` file, plus `docs/` are generated.
 | UC-005 | Generate only docs | Only `docs/…` are generated.
-| UC-006 | Generate only Cursor IDE guidance | Only `AGENTS.md` plus `docs/` are generated.
+| UC-006 | Generate only Cursor IDE guidance | Only `.cursor/` plus `docs/` are generated.
 | UC-007 | Track project progress | AI agents analyze documentation to provide status reports and identify blockers.
 | UC-008 | Detect if project uses AiCite | User can verify if project was initialized with AiCite.
-| UC-009 | Update agent content only | User can update agent guidance (`.github/`, `.kilocode/`) without overwriting their documentation.
-| UC-010 | Identify what was generated | User can tell which files/folders were generated for `docs` vs each selected tool target (Copilot/KiloCode/Cursor), without reading code or the npm/PyPI package.
+| UC-009 | Update agent content only | User can update agent guidance (`.github/`, `.kilocode/`, `.cursor/`, `CLAUDE.md`) without overwriting their documentation.
+| UC-010 | Identify what was generated | User can tell which files/folders were generated for `docs` vs each selected tool target (Copilot/KiloCode/Cursor/Claude), without reading code or the npm/PyPI package.
+| UC-011 | Generate only Claude Code guidance | Only `CLAUDE.md` plus `docs/` are generated.
 
 ---
 
@@ -85,8 +86,8 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | FR-001 | Provide `aicite setup` command that generates files into the current working directory | High | ✅ Implemented
 | FR-002 | Provide `--help` output describing usage and options | High | ✅ Implemented
 | FR-003 | Provide `--force` option to overwrite existing generated files | High | ✅ Implemented
-| FR-004 | Provide selective generation via `--only copilot,kilocode,cursor,docs` | High | ✅ Implemented
-| FR-005 | Provide convenience flags `--copilot`, `--kilocode`, `--cursor`, `--docs` | Medium | ✅ Implemented
+| FR-004 | Provide selective generation via `--only copilot,kilocode,cursor,claude,docs` | High | ✅ Implemented
+| FR-005 | Provide convenience flags `--copilot`, `--kilocode`, `--cursor`, `--claude`, `--docs` | Medium | ✅ Implemented
 | FR-006 | Always generate `docs/` as part of setup | High | ✅ Implemented (docs are forced into targets)
 | FR-007 | Setup output clearly identifies generated categories | Medium | 🔄 Proposed
 | FR-008 | Provide “how to use” discoverability from CLI output (`--help` and post-`setup`) | High | 🔄 Proposed
@@ -97,10 +98,12 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 |---|---|---:|---|
 | FR-010 | Generate GitHub Copilot guidance under `.github/` (agents/personas) when target includes `copilot` | High | ✅ Implemented (via template filtering)
 | FR-011 | Generate KiloCode configuration under `.kilocode/` (and related config files) when target includes `kilocode` | Medium | ✅ Implemented (depends on packaged templates)
-| FR-012 | Generate Cursor IDE configuration (AGENTS.md and .cursor/ folder) when target includes `cursor` | Medium | ✅ Implemented
-| FR-013 | Generate documentation skeleton under `docs/` | High | ✅ Implemented (depends on templates)
+| FR-012 | Generate Cursor IDE configuration (`.cursor/` folder) when target includes `cursor` | Medium | ✅ Implemented
+| FR-013 | Generate documentation skeleton under `docs/` (requirements, architecture, development, testplan, deployment) | High | ✅ Implemented (depends on templates)
 | FR-014 | Generated artifacts are clearly attributable | High | 🔄 Proposed
 | FR-015 | Generated docs include an explicit AiCite attribution line | Medium | 🔄 Proposed
+| FR-016 | Generate Claude Code configuration (`CLAUDE.md`) when target includes `claude` | Medium | ✅ Implemented
+| FR-017 | Generate `AGENTS.md` whenever `docs` is generated | Medium | ✅ Implemented
 
 ### Template Resolution and Copying
 
@@ -206,6 +209,9 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 - **Template:** Version-controlled scaffold files copied into a target repo.
 - **Copilot target:** Files under `.github/` used by GitHub Copilot/agent flows.
 - **KiloCode target:** Files under `.kilocode/` and related config used by KiloCode.
+- **Cursor target:** Files under `.cursor/` used by Cursor IDE.
+- **Claude target:** `CLAUDE.md`, used by Claude Code.
+- **AGENTS.md:** Shared guidance for any AI agent, generated with `docs/`.
 
 ---
 
@@ -215,7 +221,7 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 |---|---|---|
 | CLI `setup` behavior | ✅ Complete | Implemented in `npx/bin/aicite.js` and `uvx/aicite/cli.py`.
 | Template packaging/sync | ✅ Complete | `npx/scripts/sync-templates.js` runs on `prepack`; `uvx/scripts/sync-templates.py` for Python.
-| Requirements doc (this) | ✅ Complete | Updated based on current implementation.
+| Requirements doc (this) | ✅ Complete | Updated 2026-08-07 for the `claude` target, `AGENTS.md`, and the `development.md`/`testplan.md` doc split.
 | Architecture doc | ✅ Complete | Captures current scaffold-only architecture.
 | Template content completeness | ✅ Complete | Templates include basic documentation and AI agent guidance.
 | uvx distribution | ✅ Complete | Python CLI implemented and published to PyPI.

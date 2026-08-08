@@ -4,34 +4,55 @@
 
 Open-source specs-driven development (SDD) framework for AI agent alignment. Bootstraps shared documentation and assistant guidance in minutes, creating a version-controlled context for both humans and AI agents.
 
-**Tagline:** "Align AI agents, unify development teams"
-
 ## What is AiCite?
 
 AiCite is a powerful yet simple specs-driven development (SDD) framework that helps teams get started with SDD. It creates a shared context for both humans and AI agents by generating:
 
-- **Centralized documentation**: Requirements, architecture, implementation, and deployment guides in `docs/`
-- **AI agent guidance**: Configuration for tools like GitHub Copilot, KiloCode, and Cursor IDE (with extensibility for more tools)
+Every setup includes an `AGENTS.md`, aligned with the emerging [agents.md](https://github.com/agentsmd/agents.md) cross-tool convention for the first file an agent should read in a repo. AiCite doesn't compete with that convention; it fills it in. `AGENTS.md` stays a thin router, and `docs/` is the opinionated content model behind it: requirements → architecture → development → testplan → deployment, each with a declared owner and status tracking, so teams don't have to cram everything into one file or reinvent doc structure per project.
+
+- **Centralized documentation**: Requirements, architecture, development, test plan, and deployment guides in `docs/`
+- **AI agent guidance**: Configuration for tools like GitHub Copilot, KiloCode, Cursor IDE, and Claude Code (with extensibility for more tools)
 - **Version-controlled context**: All artifacts are local to your repository for full control
+
+## What Gets Generated?
+
+| Target | Description |
+| --- | --- |
+| `docs/` | Requirements, architecture, development, test plan, and deployment guides (always generated) |
+| `copilot` | GitHub Copilot agent guidance under `.github/` |
+| `kilocode` | KiloCode configuration including `.kilocodemodes` file and `.kilocode/` folder |
+| `cursor` | Cursor IDE agent configuration under `.cursor/` |
+| `claude` | `CLAUDE.md` for Claude Code |
+| (future) | Support for additional AI tools and agents |
+
+### Example output
+
+Running `npx aicite@latest setup --copilot` in an empty repo produces:
+
+```
+your-project/
+├── AGENTS.md
+├── docs/
+│   ├── requirements.md      # plain-English requirements, status-tracked
+│   ├── architecture.md      # system design, decisions, diagrams (as text)
+│   ├── development.md       # build plan, API contract, key decisions/learnings
+│   ├── testplan.md          # test strategy, guardrail test cases (TC-xxx)
+│   └── deployment.md        # deploy steps, environments, rollback notes
+└── .github/
+    └── agents/
+        └── aicite.agent.md  # single cross-functional agent that reads docs/ before acting
+```
+
+Every generated file is plain markdown — readable in any editor, diffable in any PR, and independent of whatever language your actual codebase is written in.
 
 ## Why AiCite?
 
-### For Teams Building with AI
-Stop wasting time aligning AI agents and human developers. AiCite provides a shared framework that ensures everyone works from the same page.
-
-### Key Benefits
-
-#### For Developers
-- **Instant consistency**: All AI agents (Copilot, KiloCode, Cursor) work from identical documentation
-- **Faster onboarding**: New team members understand the project structure in minutes
-- **Reduced rework**: Clear specs prevent misunderstandings before they happen
-- **Project tracking**: Real-time progress updates through documentation status indicators
-
-#### For Architects
-- **Architecture-first mindset**: Enforce design documentation before implementation begins
-- **Living specifications**: Documentation evolves with your codebase
-- **Tool agnostic alignment**: Ensure consistency across different AI platforms
-- **Version-controlled context**: All specs and guidance are tracked in your repository
+- **AI agent alignment**: Every AI tool (Copilot, KiloCode, Cursor, Claude Code, and more) works from the same specs, so you're not re-explaining context per tool.
+- **Single source of truth**: Centralized, version-controlled documentation (requirements → architecture → development → testplan → deployment).
+- **Architecture-first**: Documenting before coding prevents costly rework later.
+- **Faster onboarding**: New team members understand the project structure in minutes.
+- **Living documentation**: Status indicators (✅ 🔄 ⚠️) let AI agents generate progress reports on demand.
+- **Minimal friction**: One command setup (`npx aicite@latest setup`) with safe defaults that won't overwrite existing work.
 
 ## Quick Start
 
@@ -74,64 +95,26 @@ npx aicite@latest setup --cursor
 npx aicite@latest setup --kilocode
 ```
 
+#### Generate documentation and Claude Code guidance
+```bash
+npx aicite@latest setup --claude
+```
+
 #### Overwrite existing files (use with caution)
 ```bash
 npx aicite@latest setup --force
 ```
 
 ### Options
+
 - `--force`: Overwrite existing generated files
-- `--only copilot,kilocode,cursor,docs`: Generate only selected targets (docs are always included)
-- `--cursor` / `--copilot` / `--kilocode` / `--docs`: Convenience flags for selective generation
-
-## What Gets Generated?
-
-| Target | Description |
-|--------|-------------|
-| `docs/` | Requirements, architecture, implementation, and deployment guides |
-| `copilot` | GitHub Copilot agent personas and guidance under `.github/` |
-| `kilocode` | KiloCode configuration including `.kilocodemodes` file and `.kilocode/` folder |
-| `cursor` | Cursor IDE agent configuration under `.cursor/` |
-| (future) | Support for additional AI tools and agents |
-
-### Visualizing the Result
-
-After running `npx aicite@latest setup`, your VS Code explorer will look like this:
-
-```text
-.
-├── .github/               <-- Copilot Personas & Guidance
-│   └── copilot-instructions.md
-├── .cursor/               <-- Cursor IDE Configuration
-│   └── ...
-├── .kilocode/             <-- KiloCode Configuration
-│   └── ...
-├── docs/                  <-- The Source of Truth (SDD)
-│   ├── requirements.md
-│   ├── architecture.md
-│   ├── implementation.md
-│   └── deployment.md
-└── ... (your project files)
-```
-
-#### AI Agent Alignment in Action
-
-![GitHub Copilot Alignment](docs/assets/Copilot.png)
-*GitHub Copilot using AiCite guidance*
-
-![KiloCode Alignment](docs/assets/Kilocode.png)
-*KiloCode using AiCite guidance*
-
-**How to use it in VS Code:**
-1. **Open `docs/requirements.md`**: Define your goals and acceptance criteria.
-2. **Open `docs/architecture.md`**: Design the solution before coding.
-3. **Open `docs/implementation.md`**: Plan the technical details (APIs, schema, code structure).
-4. **Chat with your AI**: Your AI agents (Copilot, Cursor, etc.) will now automatically reference these files to provide aligned, spec-driven guidance.
-
+- `--only copilot,kilocode,cursor,claude,docs`: Generate only selected targets (docs are always included)
+- `--cursor` / `--copilot` / `--kilocode` / `--claude` / `--docs`: Convenience flags for selective generation
 
 ## Specs-Driven Development
 
 AiCite follows an SDD approach:
+
 1. **Define requirements first**: Clear, measurable objectives
 2. **Architect before coding**: Design solutions upfront
 3. **Generate living docs**: Specifications evolve with the project
@@ -145,13 +128,25 @@ This ensures consistency, reduces rework, and improves collaboration between hum
 
 AiCite's specs-driven approach enables powerful project tracking capabilities by maintaining up-to-date documentation with status indicators. AI agents can analyze these documents to provide real-time progress reports, identify blockers, and track dependencies.
 
+### For Product Owners
+
+Use these prompts to work with AI agents on requirements and backlog tasks:
+
+```
+Help me define the requirements for a new feature that allows users to export their data. Include acceptance criteria.
+```
+
+```
+What are the current open questions or blockers in the requirements document?
+```
+
+```
+Prioritize the pending requirements based on user impact and update the tracker status.
+```
+
 ### For Architects
 
 Use these prompts to work with AI agents on architectural and project tracking tasks:
-
-```
-I need to define the requirements for a new feature that allows users to export their data. Help me update the requirements document.
-```
 
 ```
 We're planning to refactor our authentication system. Can you help me design the new architecture and document the changes?
@@ -162,19 +157,7 @@ I want to understand the current architecture of our project. Can you analyze th
 ```
 
 ```
-Generate a project tracking status report based on the current documentation.
-```
-
-```
 What are the current project blockers based on the requirements and architecture documents?
-```
-
-```
-Provide a summary of last week's status and current dependencies from the project documents.
-```
-
-```
-Scan the project and prepare/update all documentation to reflect the current state.
 ```
 
 ```
@@ -186,7 +169,7 @@ Let's brainstorm solutions for the performance issues mentioned in the architect
 Use these prompts to work with AI agents on development and project tracking tasks:
 
 ```
-I need to implement the user authentication feature. Can you help me understand the requirements, architecture, and implementation plan in the docs folder, then guide me through the code?
+I need to implement the user authentication feature. Can you help me understand the requirements and architecture, then guide me through the implementation?
 ```
 
 ```
@@ -198,59 +181,69 @@ I'm refactoring the payment processing code. Can you review my changes and provi
 ```
 
 ```
-What is the high priority task to pick up next based on the requirements document?
+Update the development progress status in the development document.
+```
+
+### For QA Engineers
+
+Use these prompts to work with AI agents on test planning and verification:
+
+```
+Write guardrail test cases (TC-xxx) for the user authentication feature based on the requirements and development documents.
 ```
 
 ```
-Update the development progress status in the implementation document.
+Go through the test plan and tell me which guardrail tests are failing or still pending.
 ```
 
-## Real-World Example
+```
+A regression slipped through — help me add a new guardrail test case that would have caught it.
+```
 
-Let's see AiCite in action with a typical project scenario:
+### For DevOps / Release Managers
 
-1. **Project initialization**: A developer runs `npx aicite@latest setup` to create the initial documentation and AI agent guidance.
-2. **Requirements gathering**: The architect uses an AI agent with the prompt: "Help me define the requirements for a user authentication feature" and updates `docs/requirements.md`.
-3. **Architecture design**: The architect collaborates with an AI agent to design the authentication system and updates `docs/architecture.md`.
-4. **Implementation**: A developer uses an AI agent with the prompt: "Help me implement the user authentication feature based on the requirements and architecture" to write the code.
-5. **Progress tracking**: The team uses AI agents to generate status reports, identify blockers, and update documentation with real-time progress.
-6. **Iteration**: As the project evolves, the team updates the specifications, and AI agents provide consistent guidance across all tools.
+Use these prompts to work with AI agents on deployment and operations:
 
-This workflow ensures that everyone is aligned from the start, reduces rework, and improves collaboration between humans and AI.
+```
+Walk me through the deployment procedure for this release based on the deployment document.
+```
 
-## Why AiCite Stands Out
+```
+What's the rollback plan if this deployment fails?
+```
 
-AiCite solves the biggest challenges of AI-assisted development:
+```
+Update the deployment document with the monitoring and alerting setup we just configured.
+```
 
-### 1. **AI Agent Alignment**
-Ensure GitHub Copilot, KiloCode, Cursor, and future AI tools all work from the same specifications
+### For Anyone (Status & Progress)
 
-### 2. **Single Source of Truth**
-Centralized documentation (requirements → architecture → implementation → deployment) that's version-controlled
+These work regardless of role — useful for stakeholders who just want a status check:
 
-### 3. **Architecture-First Development**
-Force best practices by documenting before coding, preventing costly rework later
+```
+Generate a project tracking status report based on the current documentation.
+```
 
-### 4. **Real-Time Project Tracking**
-Status indicators in documentation enable AI agents to provide real-time progress reports
-
-### 5. **Minimal Friction**
-One command setup (`npx aicite@latest setup`) with safe defaults that won't overwrite your existing work
-
-### 6. **Future-Proof**
-Extensible framework that will support additional AI tools and workflows as the ecosystem evolves
+```
+Scan the project and prepare/update all documentation to reflect the current state.
+```
 
 ## Contributing
 
 We welcome contributions from the community! AiCite is built with specs-driven development, and we follow these principles in our own work. Here's how you can contribute:
 
+> **Why does this repo show Python and JavaScript?** Those percentages reflect
+> the two installer wrappers (`npx`/`npm` and `uvx`/`PyPI`) that ship AiCite,
+> not the language of the docs or config it generates, and not a requirement
+> on your project's stack.
+
 ### Getting Started
 
 1. Fork the repository
 2. Clone your forked repository
-3. Set up the development environment (see `docs/implementation.md` for details)
+3. Set up the development environment (see `docs/development.md` for details)
 4. Make your changes
-5. Run the tests (see `docs/implementation.md` for test commands)
+5. Run the tests (see `docs/testplan.md` for guardrail test cases)
 6. Submit a pull request
 
 ### Contribution Guidelines
