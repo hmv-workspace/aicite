@@ -19,7 +19,7 @@ def print_help():
 aicite - bootstrap AI assistant project context
 
 Usage:
-  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--docs]
+  aicite setup [--force] [--only <targets> | --copilot] [--kilocode] [--cursor] [--claude] [--docs]
   aicite update [--agents] [--force]
   aicite --help
   aicite --version
@@ -30,10 +30,11 @@ Commands:
 
 Setup Options:
   --force    Overwrite existing generated files
-  --only     Comma-separated targets: copilot,kilocode,cursor,docs (default: all). Note: docs are always generated.
+  --only     Comma-separated targets: copilot,kilocode,cursor,claude,docs (default: all). Note: docs are always generated.
   --copilot  Generate only .github/ (Copilot)
   --kilocode Generate only .kilocode/ (KiloCode)
-  --cursor   Generate only .cursor/ and AGENTS.md (Cursor IDE)
+  --cursor   Generate only .cursor/ (Cursor IDE)
+  --claude   Generate only CLAUDE.md (Claude Code)
   --docs     Generate only docs/
 
 Update Options:
@@ -76,7 +77,7 @@ def list_files_recursive(dir_path):
 
 
 def parse_targets(args):
-    valid = {"copilot", "kilocode", "cursor", "docs"}
+    valid = {"copilot", "kilocode", "cursor", "claude", "docs"}
 
     if args.only:
         parts = [s.strip().lower() for s in args.only.split(",") if s.strip()]
@@ -98,13 +99,15 @@ def parse_targets(args):
         explicit.add("kilocode")
     if args.cursor:
         explicit.add("cursor")
+    if args.claude:
+        explicit.add("claude")
     if args.docs:
         explicit.add("docs")
     if explicit:
         explicit.add("docs")
         return explicit
 
-    return {"copilot", "kilocode", "cursor", "docs"}
+    return {"copilot", "kilocode", "cursor", "claude", "docs"}
 
 
 def write_file_if_needed(
@@ -141,6 +144,10 @@ def setup(cwd, force, targets, update_agents_only=False, check_user_modified=Fal
             return "kilocode" in targets
         if first == ".cursor":
             return "cursor" in targets
+        if first == "CLAUDE.md":
+            return "claude" in targets
+        if first == "AGENTS.md":
+            return "docs" in targets
         if first == "docs":
             return "docs" in targets
         return True
@@ -187,7 +194,7 @@ def main():
         "--force", action="store_true", help="Overwrite existing files"
     )
     setup_parser.add_argument(
-        "--only", type=str, help="Comma-separated targets: copilot,kilocode,cursor,docs"
+        "--only", type=str, help="Comma-separated targets: copilot,kilocode,cursor,claude,docs"
     )
     setup_parser.add_argument(
         "--copilot", action="store_true", help="Generate only .github/ (Copilot)"
@@ -198,7 +205,12 @@ def main():
     setup_parser.add_argument(
         "--cursor",
         action="store_true",
-        help="Generate only .cursor/ and AGENTS.md (Cursor IDE)",
+        help="Generate only .cursor/ (Cursor IDE)",
+    )
+    setup_parser.add_argument(
+        "--claude",
+        action="store_true",
+        help="Generate only CLAUDE.md (Claude Code)",
     )
     setup_parser.add_argument("--docs", action="store_true", help="Generate only docs/")
 
@@ -243,7 +255,7 @@ def main():
     elif args.command == "update":
         # Update command - update existing files
         # Skip files that user has modified (don't overwrite their changes)
-        update_targets = {"copilot", "kilocode", "cursor"}
+        update_targets = {"copilot", "kilocode", "cursor", "claude"}
         if not args.agents:
             update_targets.add("docs")
 
