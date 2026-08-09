@@ -9,7 +9,7 @@
 ## Document Index
 
 - [Overview of the Architecture](#overview-of-the-architecture)
-- [Key Components and Their Interactions](#key-components-and-their-interactions)
+- [Solution Architecture](#solution-architecture)
 - [Design Decisions and Rationale](#design-decisions-and-rationale)
 - [Technology Stack](#technology-stack)
 - [Deployment Strategy](#deployment-strategy)
@@ -38,7 +38,7 @@ AiCite is an **open-source specs-driven development (SDD) framework** for AI age
 
 ---
 
-## Key Components and Their Interactions
+## Solution Architecture
 
 | Component | Location | Responsibility |
 |---|---|---|
