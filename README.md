@@ -33,6 +33,7 @@ Running `npx aicite@latest setup --copilot` in an empty repo produces:
 your-project/
 ├── AGENTS.md
 ├── docs/
+│   ├── README.md            # project overview
 │   ├── requirements.md      # plain-English requirements, status-tracked
 │   ├── architecture.md      # system design, decisions, diagrams (as text)
 │   ├── development.md       # build plan, API contract, key decisions/learnings
