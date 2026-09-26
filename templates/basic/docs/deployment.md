@@ -1,7 +1,8 @@
 # Deployment Plan Template
 
 > **Created:** February 2026  
-> **Owner:** DevOps
+> **Scope:** HOW to release and operate — environments, publish procedures, verification, rollback, monitoring.  
+> **Out of scope:** Local development setup, build instructions, test cases, architecture rationale.
 
 ---
 

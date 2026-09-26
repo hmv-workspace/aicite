@@ -1,8 +1,9 @@
 # AiCite — Architecture
 
-> **Document Version:** 1.1
-> **Last Updated:** 07 August 2026
-> **Scope:** This document defines HOW AiCite is designed and structured. It describes the current implementation (a minimal CLI that copies versioned templates) and planned distribution options. It covers architectural components, design decisions, technology stack, scalability, security, and maintenance plans.
+> **Document Version:** 1.1  
+> **Last Updated:** 07 August 2026  
+> **Scope:** This document defines HOW AiCite is designed and structured. It describes the current implementation (a minimal CLI that copies versioned templates) and planned distribution options. It covers architectural components, design decisions, technology stack, scalability, security, and maintenance plans.  
+> **Out of scope:** Requirement statements, code-level implementation, API payloads, schema DDL, test cases, deploy procedures.
 
 ---
 
@@ -32,7 +33,7 @@ AiCite is an **open-source specs-driven development (SDD) framework** for AI age
 
 **Primary users** are developers and architects who want AI agents from different tools/vendors to operate from the same “source of truth” documents and consistent project guidance.
 
-**Relationship to agents.md:** AiCite generates an `AGENTS.md` aligned with the [agents.md](https://github.com/agentsmd/agents.md) cross-tool convention. AiCite does not compete with that convention — it supplies the content model behind it. `AGENTS.md` stays a thin router; `docs/` (requirements → architecture → development → testplan → deployment, each with a declared owner and status tracking) is the payload it points to.
+**Relationship to agents.md:** AiCite generates an `AGENTS.md` aligned with the [agents.md](https://github.com/agentsmd/agents.md) cross-tool convention. AiCite does not compete with that convention — it supplies the content model behind it. `AGENTS.md` stays a thin router; `docs/` (requirements → architecture → development → testplan → deployment, each with its own scope and status tracking) is the payload it points to.
 
 **Core architectural pattern:** deterministic template generation (filesystem copy) with safe defaults (skip existing files unless `--force`).
 
@@ -47,7 +48,7 @@ AiCite is an **open-source specs-driven development (SDD) framework** for AI age
 | JavaScript CLI entrypoint | `npx/bin/aicite.js` | Parses args; resolves templates; filters targets; writes files; prints summary.
 | Python CLI package | `uvx/` | Publishable package that provides the `aicite` binary for Python environments.
 | Python CLI entrypoint | `uvx/aicite/cli.py` | Parses args; resolves templates; filters targets; writes files; prints summary.
-| Template source (repo) | `templates/basic/` | Intended “source of truth” template set under version control. Contains per-tool adapters (`.github/`, `.cursor/`, `.kilocodemodes`, `CLAUDE.md`), `AGENTS.md`, and `docs/` (requirements, architecture, development, testplan, deployment).
+| Template source (repo) | `templates/basic/` | Intended “source of truth” template set under version control. Contains per-tool adapters (`.github/`, `.cursor/`, `.kilocodemodes`, `CLAUDE.md`), `AGENTS.md`, and `docs/` (README, requirements, architecture, development, testplan, deployment).
 | Templates shipped with npm package | `npx/templates/basic/` | Template set bundled into the published npm package.
 | Templates shipped with Python package | `uvx/templates/basic/` | Template set bundled into the published PyPI package.
 | JavaScript template sync script | `npx/scripts/sync-templates.js` | Copies repo templates into `npx/templates/` during `prepack`.

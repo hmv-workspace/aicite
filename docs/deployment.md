@@ -1,8 +1,9 @@
 # AiCite — Deployment (Publishing & Release Ops)
 
-> **Document Version:** 1.0
+> **Document Version:** 1.0  
 > **Last Updated:** 16 March 2026  
-> **Scope:** This document defines HOW to deploy and release AiCite. AiCite is an SDD framework distributed via lightweight CLI installers (no servers), so deployment primarily involves publishing the npm and PyPI packages. It covers release artifacts, publish procedures, verification steps, rollback strategies, and CI/CD pipeline configuration.
+> **Scope:** This document defines HOW to deploy and release AiCite. AiCite is an SDD framework distributed via lightweight CLI installers (no servers), so deployment primarily involves publishing the npm and PyPI packages. It covers release artifacts, publish procedures, verification steps, rollback strategies, and CI/CD pipeline configuration.  
+> **Out of scope:** Local development setup, build instructions, test cases, architecture rationale.
 
 ---
 

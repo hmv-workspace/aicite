@@ -8,8 +8,6 @@ Open-source specs-driven development (SDD) framework for AI agent alignment. Boo
 
 AiCite is a powerful yet simple specs-driven development (SDD) framework that helps teams get started with SDD. It creates a shared context for both humans and AI agents by generating:
 
-Every setup includes an `AGENTS.md`, aligned with the emerging [agents.md](https://github.com/agentsmd/agents.md) cross-tool convention for the first file an agent should read in a repo. AiCite doesn't compete with that convention; it fills it in. `AGENTS.md` stays a thin router, and `docs/` is the opinionated content model behind it: requirements → architecture → development → testplan → deployment, each with a declared owner and status tracking, so teams don't have to cram everything into one file or reinvent doc structure per project.
-
 - **Centralized documentation**: Requirements, architecture, development, test plan, and deployment guides in `docs/`
 - **AI agent guidance**: Configuration for tools like GitHub Copilot, KiloCode, Cursor IDE, and Claude Code (with extensibility for more tools)
 - **Version-controlled context**: All artifacts are local to your repository for full control
@@ -45,6 +43,10 @@ your-project/
 ```
 
 Every generated file is plain markdown — readable in any editor, diffable in any PR, and independent of whatever language your actual codebase is written in.
+
+## Relationship to agents.md
+
+AiCite generates an `AGENTS.md` aligned with the [agents.md](https://github.com/agentsmd/agents.md) convention — the first file an agent reads in a repo. AiCite doesn't compete with it; it fills it in. `AGENTS.md` stays a thin router; `docs/` is the content model behind it, each document with its own scope and status tracking — so you don't have to cram everything into one file or reinvent doc structure per project.
 
 ## Why AiCite?
 

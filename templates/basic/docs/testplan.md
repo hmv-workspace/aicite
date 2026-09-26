@@ -1,7 +1,8 @@
 # Test Plan Template
 
 > **Created:** August 2026  
-> **Owner:** Engineer
+> **Scope:** WHAT to verify — test strategy, guardrail test cases (`TC-xxx`), expected results, status.  
+> **Out of scope:** Implementation detail, requirement definitions, fixes. Note fixes in `development.md`.
 
 ---
 

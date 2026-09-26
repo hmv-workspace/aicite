@@ -1,7 +1,8 @@
 # Architecture Document Template
 
 > **Created:** February 2026  
-> **Owner:** Architect
+> **Scope:** HOW the system is designed — components, boundaries, data flow, technology choices and the rationale behind them.  
+> **Out of scope:** Requirement statements, code-level implementation, API payloads, schema DDL, test cases, deploy procedures.
 
 ---
 

@@ -1,22 +1,27 @@
 # AGENTS.md
 
-## Docs are the source of truth
+## Docs-as-Code Workflow
 
-Always check `docs/` before designing, developing, testing, or deploying:
+`docs/` is the project source of truth. Before starting requirements, design, development, testing, or deployment work, run `git log --oneline -10` for recent context and review the applicable documents:
 
-1. `docs/requirements.md` — WHAT to build
-2. `docs/architecture.md` — HOW it's designed
-3. `docs/development.md` — HOW it's built (build plan, API contract, key decisions/learnings)
-4. `docs/testplan.md` — test cases (guardrail tests are labeled TC-xxx)
-5. `docs/deployment.md` — deploy/operational procedures
+0. `docs/README.md` — the docs-as-code contract and project brief
+1. `docs/requirements.md` defines WHAT to build.
+2. `docs/architecture.md` defines HOW the system is designed.
+3. `docs/development.md` defines HOW to implement it and run it locally.
+4. `docs/testplan.md` defines WHAT to verify; guardrail tests use `TC-xxx` identifiers.
+5. `docs/deployment.md` defines release and operational procedures.
 
-## Operating rules
+If a request is not covered by `docs/` or contradicts them, say so and agree the documentation change first. Never build past the docs.
 
-- Ask clarifying questions when requirements, architecture, or intent are unclear — don't assume.
-- Keep responses short and focused on what was asked.
-- Keep `docs/` aligned with implementation reality; use ✅ Complete / 🔄 In Progress / ⚠️ Blocked status markers.
-- Get explicit user approval before finalizing major doc updates or making source code changes.
-- Do not create additional documents unless explicitly instructed.
-- Each doc under `docs/` declares an **Owner** role in its header (Product, Architect, Engineer, DevOps). Only finalize edits to a doc when acting in its owner's role; otherwise draft the change and flag it for handoff to the owning role.
+## Operating Rules
 
-These rules apply regardless of which AI tool is running, including tools with no dedicated config file, which can read this one directly.
+- Ask clarifying questions when requirements, architecture, or intent are unclear. Do not assume.
+- Keep responses concise and focused on the request.
+- Obtain explicit user approval before making source-code or documentation changes.
+- Keep `docs/` aligned with implementation reality. After a code change, propose the update to the affected document in the same turn.
+- Each document states its scope and what is out of scope at the top. Put content in the document whose scope covers it; if it belongs elsewhere, write it there instead.
+- Status markers report verified reality, not intent: `✅ Complete`, `🔄 In Progress`, `⚠️ Blocked`. Use `✅` only after the work has been run and confirmed by the user.
+- Name anything skipped, blocked, or unverified. Do not report partial work as complete.
+- Do not create new documentation files unless explicitly instructed.
+
+These rules apply to every AI tool or agent working in this repository, including tools without a dedicated configuration file.

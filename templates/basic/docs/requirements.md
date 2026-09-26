@@ -1,7 +1,8 @@
 # Requirements Document Template
 
 > **Created:** February 2026  
-> **Owner:** Product
+> **Scope:** WHAT to build and why — goals, users, functional and non-functional requirements, constraints, assumptions.  
+> **Out of scope:** Designs, schemas, APIs, code structure, test cases, deploy steps. Those belong in `architecture.md`, `development.md`, `testplan.md`, and `deployment.md`.
 
 ---
 

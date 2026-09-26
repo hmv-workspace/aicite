@@ -1,7 +1,8 @@
 # Development Plan Template
 
 > **Created:** February 2026  
-> **Owner:** Engineer
+> **Scope:** HOW to implement it — build plan, API contracts, data schema, code structure, local setup, decisions and learnings.  
+> **Out of scope:** New requirements, architectural rationale, test cases (see `testplan.md`), release procedures (see `deployment.md`).
 
 ---
 

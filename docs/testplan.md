@@ -51,6 +51,7 @@ cd /Users/mehulhirpara/Workspace/GitHub/hmv-workspace/aicite
 | TC-009 | npx and uvx produce identical output for the same flags | Two empty scratch dirs | Run `node npx/bin/aicite.js setup` in one, `python3 -m aicite.cli setup` in the other | Identical file lists and file counts | 🔄 Pending |
 | TC-010 | `templates/basic`, `npx/templates`, `uvx/templates` stay in sync | Templates edited under `templates/basic/` | Run both sync scripts, then `diff -rq` all three trees | No diff output | 🔄 Pending |
 | TC-011 | Per-tool agent files stay thin pointers, not content forks | Fresh `setup` already run | Inspect `.cursor/agents/aicite.agent.md` and `.github/agents/aicite.agent.md` | Each contains only frontmatter (`name`/`tools`/`model`) plus a one-line pointer to `AGENTS.md` — no duplicated mission/workflow body | 🔄 Pending |
+| TC-012 | Every doc `AGENTS.md` points to is actually generated | Empty scratch dir | Run `aicite setup`, then check each path listed in `AGENTS.md` | All six exist: `docs/README.md` (item 0) plus requirements, architecture, development, testplan, deployment — no dangling reference | 🔄 Pending |
 
 ---
 

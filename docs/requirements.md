@@ -1,8 +1,9 @@
 # AiCite — Requirements
 
-> **Document Version:** 1.1
-> **Last Updated:** 07 August 2026
-> **Scope:** This document defines WHAT AiCite is and what it should do. It captures the current implementation status and near-term roadmap. It includes project goals, user requirements, functional and non-functional specifications, constraints, and assumptions. Items not yet implemented are explicitly marked.
+> **Document Version:** 1.1  
+> **Last Updated:** 07 August 2026  
+> **Scope:** This document defines WHAT AiCite is and what it should do. It captures the current implementation status and near-term roadmap. It includes project goals, user requirements, functional and non-functional specifications, constraints, and assumptions. Items not yet implemented are explicitly marked.  
+> **Out of scope:** Designs, schemas, APIs, code structure, test cases, deploy steps. Those belong in `architecture.md`, `development.md`, `testplan.md`, and `deployment.md`.
 
 ---
 
@@ -99,7 +100,7 @@ AiCite is an open-source specs-driven development (SDD) framework for AI agent a
 | FR-010 | Generate GitHub Copilot guidance under `.github/` (agents/personas) when target includes `copilot` | High | ✅ Implemented (via template filtering)
 | FR-011 | Generate KiloCode configuration under `.kilocode/` (and related config files) when target includes `kilocode` | Medium | ✅ Implemented (depends on packaged templates)
 | FR-012 | Generate Cursor IDE configuration (`.cursor/` folder) when target includes `cursor` | Medium | ✅ Implemented
-| FR-013 | Generate documentation skeleton under `docs/` (requirements, architecture, development, testplan, deployment) | High | ✅ Implemented (depends on templates)
+| FR-013 | Generate documentation skeleton under `docs/` (README, requirements, architecture, development, testplan, deployment) | High | ✅ Implemented (depends on templates)
 | FR-014 | Generated artifacts are clearly attributable | High | 🔄 Proposed
 | FR-015 | Generated docs include an explicit AiCite attribution line | Medium | 🔄 Proposed
 | FR-016 | Generate Claude Code configuration (`CLAUDE.md`) when target includes `claude` | Medium | ✅ Implemented
